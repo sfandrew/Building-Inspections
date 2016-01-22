@@ -24,11 +24,11 @@ RSpec.describe BuildingsController, type: :controller do
   # Building. As you add validations to Building, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.attributes_for(:building)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.attributes_for(:invalid_building)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -102,15 +102,20 @@ RSpec.describe BuildingsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
+
+      let(:valid_attributes) {
+        FactoryGirl.attributes_for(:building, name: "before_update")
+      }
+
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {name: "after_update"}
       }
 
       it "updates the requested building" do
         building = Building.create! valid_attributes
         put :update, {:id => building.to_param, :building => new_attributes}, valid_session
         building.reload
-        skip("Add assertions for updated state")
+        expect(building.name).to eq("after_update")
       end
 
       it "assigns the requested building as @building" do

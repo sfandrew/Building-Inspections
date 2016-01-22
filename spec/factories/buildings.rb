@@ -6,4 +6,8 @@ FactoryGirl.define do
     f.city { Faker::Address.city }
     f.state { Faker::Address.state }
   end
+
+  factory :invalid_building, parent: :building do |f|
+    f.name { nil }
+  end
 end

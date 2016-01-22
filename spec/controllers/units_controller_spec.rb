@@ -23,12 +23,17 @@ RSpec.describe UnitsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Unit. As you add validations to Unit, be sure to
   # adjust the attributes here as well.
+
+  let(:building_id) {
+    FactoryGirl.create(:building).id
+  }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.attributes_for(:unit, building_id: building_id)
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.attributes_for(:invalid_unit, building_id: building_id)
   }
 
   # This should return the minimal set of values that should be in the session
@@ -102,15 +107,19 @@ RSpec.describe UnitsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
+      let(:valid_attributes) {
+        FactoryGirl.attributes_for(:unit, unit_number: "before_update")
+      }
+
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {unit_number: "after_update"}
       }
 
       it "updates the requested unit" do
         unit = Unit.create! valid_attributes
         put :update, {:id => unit.to_param, :unit => new_attributes}, valid_session
         unit.reload
-        skip("Add assertions for updated state")
+        expect(unit.unit_number).to eq("after_update")
       end
 
       it "assigns the requested unit as @unit" do
