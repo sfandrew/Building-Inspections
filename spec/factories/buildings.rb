@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :building do |f|
-    f.name "building1"
-    f.address_line_1 "123 Fake st."
-    f.zip "90210"
-    f.city "Beverly Hills"
-    f.state "CA"
+    f.name { Faker::App.name }
+    f.address_line_1 { Faker::Address.street_address }
+    f.zip { Faker::Address.zip }
+    f.city { Faker::Address.city }
+    f.state { Faker::Address.state }
   end
 end
