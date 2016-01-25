@@ -13,12 +13,22 @@ RSpec.describe "Buildings", type: :feature do
         fill_in 'Zip', with: "94117"
         click_button "Create Building"
       }.to change(Building, :count).by(1)
-      page.should have_content "Building was successfully created."
-      page.should have_content "building1"
-      page.should have_content "123 fake st."
-      page.should have_content "San Francisco"
-      page.should have_content "California"
-      page.should have_content "94117"
+      expect(page).to have_content "Building was successfully created."
+      expect(page).to have_content "building1"
+      expect(page).to have_content "123 fake st."
+      expect(page).to have_content "San Francisco"
+      expect(page).to have_content "California"
+      expect(page).to have_content "94117"
+    end
+
+    it "deletes a building" do
+      building = FactoryGirl.create(:building, name: "testbuilding")
+      visit buildings_path
+      expect {
+        click_link 'Destroy'
+      }.to change(Building, :count).by(-1)
+      expect(page).to have_content "Listing Buildings"
+      expect(page).to_not have_content "testbuilding"
     end
   end
 end
