@@ -3,7 +3,7 @@ FactoryGirl.define do
     type ""
     section "MyString"
     weight "9.99"
-    item_order 1
+    sequence(:item_order)
     inspection_template { FactoryGirl.create(:inspection_template) }
   end
 
