@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :inspection_template do
-    unit { FactoryGirl.create(:unit) }
+    #unit { FactoryGirl.create(:unit) }
+    name { "InspectionTemplateTestName" }
 
     factory :inspection_template_with_items do
         ignore do

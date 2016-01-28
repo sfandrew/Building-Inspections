@@ -9,8 +9,12 @@ RSpec.describe InspectionTemplate, type: :model do
     expect(FactoryGirl.create(:inspection_template_with_items, items_count: 5).items.length).to eq(5)
   end
 
-  it "is invalid without a unit" do
-    expect(FactoryGirl.build(:inspection_template, unit: nil)).not_to be_valid
+  it "is invalid without a name" do
+    expect(FactoryGirl.build(:inspection_template, name: nil)).not_to be_valid
+  end
+
+  it "is valid without a unit" do
+    expect(FactoryGirl.build(:inspection_template, unit: nil)).to be_valid
   end
 
   it "gets items in item_order" do 

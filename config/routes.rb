@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :units
   resources :buildings
+  resources :inspection_templates
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
