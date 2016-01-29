@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :inspection_template do
-    #unit { FactoryGirl.create(:unit) }
     name { "InspectionTemplateTestName" }
 
     factory :inspection_template_with_items do
-        ignore do
+        transient do
           items_count 2
         end
         

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160128205828) do
+ActiveRecord::Schema.define(version: 20160129003828) do
 
   create_table "buildings", force: :cascade do |t|
     t.string   "name"
@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(version: 20160128205828) do
     t.string   "zip"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "inspection_items", force: :cascade do |t|
+    t.string   "name"
+    t.decimal  "weight"
+    t.integer  "position"
+    t.string   "section"
+    t.decimal  "score"
+    t.text     "comment"
+    t.string   "type"
+    t.string   "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "inspection_template_items", force: :cascade do |t|
@@ -39,6 +52,14 @@ ActiveRecord::Schema.define(version: 20160128205828) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
+  end
+
+  create_table "inspections", force: :cascade do |t|
+    t.text     "description"
+    t.integer  "unit_id"
+    t.string   "status"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "units", force: :cascade do |t|
