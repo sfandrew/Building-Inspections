@@ -33,8 +33,9 @@ ActiveRecord::Schema.define(version: 20160129003828) do
     t.text     "comment"
     t.string   "type"
     t.string   "status"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "inspection_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "inspection_template_items", force: :cascade do |t|

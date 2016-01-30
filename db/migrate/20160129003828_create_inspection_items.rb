@@ -9,6 +9,7 @@ class CreateInspectionItems < ActiveRecord::Migration
       t.text :comment
       t.string :type
       t.string :status
+      t.integer :inspection_id
 
       t.timestamps null: false
     end
