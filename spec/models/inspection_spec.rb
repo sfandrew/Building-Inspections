@@ -13,11 +13,6 @@ RSpec.describe Inspection, type: :model do
   	expect(FactoryGirl.build(:inspection, unit: nil)).not_to be_valid
   end
 
-  it "is invalid without items" do 
-  	skip("check item presence validations after we get items generating from template properly")
-    expect(FactoryGirl.build(:inspection, items: [])).not_to be_valid
-  end
-
   it "is invalid when created without a template" do
   	expect(FactoryGirl.build(:inspection, template: nil)).not_to be_valid
   end
@@ -39,12 +34,23 @@ RSpec.describe Inspection, type: :model do
     expect(positions).to eq(positions.sort)
   end
 
-  it "automatically creates items that match its template when created" do
-    skip("Not yet implemented")
-    template = FactoryGirl.create(:inspection_template_with_items, items_count: 5)
-    inspection = FactoryGirl.create(:inspection, template: template)
-    inspection.items.each do |inspection_item|
-      #inspection
+
+  describe "when creating from a template which has items" do
+    let (:template) {
+      FactoryGirl.create(:inspection_template_with_items, items_count: 5)
+    }
+    let (:inspection) {
+      FactoryGirl.create(:inspection, template: template)
+    }
+
+    it "has the correct number of items" do 
+      expect(inspection.items.length).to eq(template.items.length)
+    end
+
+    it "items created from the template match the template's items" do
+      inspection.items.each_with_index do |inspection_item, index|
+        expect(inspection_item.matches_template_item?(template.items[index])).to be true
+      end
     end
   end
 

@@ -31,8 +31,6 @@ RSpec.describe Inspection::Item, type: :model do
       weight: 15.55,
       item_order: 4)
     inspection_item = Inspection::Item.build_from_template_item(template_item)
-    expect(inspection_item.section).to eq(template_item.section)
-    expect(inspection_item.weight).to eq(template_item.weight)
-    expect(inspection_item.position).to eq(template_item.item_order)
+    expect(inspection_item.matches_template_item?(template_item)).to be true
   end
 end

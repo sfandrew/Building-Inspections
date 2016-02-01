@@ -5,7 +5,6 @@ class Inspection < ActiveRecord::Base
   has_many :items, -> { order(position: :asc) }, class_name: "Inspection::Item"
 
   validates :unit, presence: true
-  #validates :item, presence: true
   validates :template, presence: true, on: :create
 
 
@@ -14,7 +13,7 @@ class Inspection < ActiveRecord::Base
 
   def create_items_from_template
     @template.items.each do |template_item|
-
+      self.items << Inspection::Item.build_from_template_item(template_item)
     end
   end
 
