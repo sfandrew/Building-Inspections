@@ -17,15 +17,15 @@ RSpec.describe InspectionTemplate, type: :model do
     expect(FactoryGirl.build(:inspection_template, unit: nil)).to be_valid
   end
 
-  it "gets items in item_order" do 
+  it "gets items in position order" do 
     inspection_template = FactoryGirl.build(:inspection_template)
 
-    FactoryGirl.create(:inspection_template_item, item_order: 3, inspection_template: inspection_template)
-    FactoryGirl.create(:inspection_template_item, item_order: 1, inspection_template: inspection_template)
-    FactoryGirl.create(:inspection_template_item, item_order: 2, inspection_template: inspection_template)
+    FactoryGirl.create(:inspection_template_item, position: 3, inspection_template: inspection_template)
+    FactoryGirl.create(:inspection_template_item, position: 1, inspection_template: inspection_template)
+    FactoryGirl.create(:inspection_template_item, position: 2, inspection_template: inspection_template)
 
-    item_orders = inspection_template.items.pluck(:item_order)
-    expect(item_orders).to eq(item_orders.sort)
+    positions = inspection_template.items.pluck(:position)
+    expect(positions).to eq(positions.sort)
   end
 
 end

@@ -9,7 +9,7 @@ class Inspection::Item < ActiveRecord::Base
       name: template_item.name,
       weight: template_item.weight,
       section: template_item.section,
-      position: template_item.item_order)
+      position: template_item.position)
   end
 
   # used in tests to check if this item is instantiated properly from its template
@@ -18,7 +18,7 @@ class Inspection::Item < ActiveRecord::Base
     return false if self.name != template_item.name
     return false if self.section != template_item.section
     return false if self.weight != template_item.weight
-    return false if self.position != template_item.item_order
+    return false if self.position != template_item.position
     true
   end
 end

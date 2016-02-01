@@ -9,8 +9,8 @@ RSpec.describe InspectionTemplate::Item, type: :model do
     expect(FactoryGirl.build(:inspection_template_item, inspection_template: nil)).not_to be_valid
   end
 
-  it "is invalid without an item order" do
-    expect(FactoryGirl.build(:inspection_template_item, item_order: nil)).not_to be_valid
+  it "is invalid without a position" do
+    expect(FactoryGirl.build(:inspection_template_item, position: nil)).not_to be_valid
   end
 
   it "is invalid without a section" do
@@ -23,6 +23,6 @@ RSpec.describe InspectionTemplate::Item, type: :model do
 
   it "should have unique order number within same template" do
     template = FactoryGirl.create(:inspection_template_with_items, items_count: 5)
-    expect(template.items.pluck(:item_order).uniq.length).to eq(template.items.length)
+    expect(template.items.pluck(:position).uniq.length).to eq(template.items.length)
   end
 end

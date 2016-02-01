@@ -29,7 +29,7 @@ RSpec.describe Inspection::Item, type: :model do
     template_item = FactoryGirl.create(:inspection_template_item,
       section: "template_section",
       weight: 15.55,
-      item_order: 4)
+      position: 4)
     inspection_item = Inspection::Item.build_from_template_item(template_item)
     expect(inspection_item.matches_template_item?(template_item)).to be true
   end
