@@ -24,11 +24,26 @@ RSpec.describe InspectionsController, type: :controller do
   # Inspection. As you add validations to Inspection, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.attributes_for(
+      :inspection, 
+      #unit: unit, 
+      #template: template
+      ).tap do |x| 
+        x[:unit_id] = x[:unit].id
+        x[:template_id] = x[:template].id
+      end
   }
 
+  let(:unit) {
+    FactoryGirl.create(:unit)
+  }
+  
+  let(:template) {
+    FactoryGirl.create(:inspection_template_with_items, items_count: 5)
+  }
+  
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    valid_attributes.tap{|x| x[:unit_id] = nil }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +118,14 @@ RSpec.describe InspectionsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { description: "new description" }
       }
 
       it "updates the requested inspection" do
         inspection = Inspection.create! valid_attributes
         put :update, {:id => inspection.to_param, :inspection => new_attributes}, valid_session
         inspection.reload
-        skip("Add assertions for updated state")
+        expect(inspection.description).to eq("new description")
       end
 
       it "assigns the requested inspection as @inspection" do

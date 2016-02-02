@@ -25,6 +25,7 @@ class InspectionsController < ApplicationController
   # POST /inspections.json
   def create
     @inspection = Inspection.new(inspection_params)
+    puts inspection_params
 
     respond_to do |format|
       if @inspection.save
@@ -69,6 +70,6 @@ class InspectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def inspection_params
-      params.require(:inspection).permit(:description, :unit_id)
+      params.require(:inspection).permit(:description, :unit_id, :template_id)
     end
 end
