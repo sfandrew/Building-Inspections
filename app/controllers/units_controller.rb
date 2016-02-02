@@ -1,15 +1,16 @@
 class UnitsController < ApplicationController
-  before_action :set_unit, only: [:show, :edit, :update, :destroy]
+  before_action :set_building
 
   # GET /units
   # GET /units.json
   def index
-    @units = Unit.all
+    @units = @building.units
   end
 
   # GET /units/1
   # GET /units/1.json
   def show
+    set_unit
   end
 
   # GET /units/new
@@ -19,16 +20,17 @@ class UnitsController < ApplicationController
 
   # GET /units/1/edit
   def edit
+    set_unit
   end
 
   # POST /units
   # POST /units.json
   def create
-    @unit = Unit.new(unit_params)
+    @unit = @building.units.new(unit_params)
 
     respond_to do |format|
       if @unit.save
-        format.html { redirect_to @unit, notice: 'Unit was successfully created.' }
+        format.html { redirect_to [@building, @unit], notice: 'Unit was successfully created.' }
         format.json { render :show, status: :created, location: @unit }
       else
         format.html { render :new }
@@ -40,9 +42,11 @@ class UnitsController < ApplicationController
   # PATCH/PUT /units/1
   # PATCH/PUT /units/1.json
   def update
+    set_unit
+
     respond_to do |format|
       if @unit.update(unit_params)
-        format.html { redirect_to @unit, notice: 'Unit was successfully updated.' }
+        format.html { redirect_to [@building, @unit], notice: 'Unit was successfully updated.' }
         format.json { render :show, status: :ok, location: @unit }
       else
         format.html { render :edit }
@@ -54,9 +58,11 @@ class UnitsController < ApplicationController
   # DELETE /units/1
   # DELETE /units/1.json
   def destroy
+    set_unit
+
     @unit.destroy
     respond_to do |format|
-      format.html { redirect_to units_url, notice: 'Unit was successfully destroyed.' }
+      format.html { redirect_to building_units_url(@building), notice: 'Unit was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,7 +70,11 @@ class UnitsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_unit
-      @unit = Unit.find(params[:id])
+      @unit = @building.units.find(params[:id])
+    end
+
+    def set_building
+      @building = Building.find(params[:building_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

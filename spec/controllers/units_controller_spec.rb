@@ -41,10 +41,26 @@ RSpec.describe UnitsController, type: :controller do
   # UnitsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let (:unit_with_different_building) {
+    FactoryGirl.create(:unit)
+  }
+
   describe "GET #index" do
     it "assigns all units as @units" do
       unit = Unit.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {building_id: building_id}, valid_session
+      expect(assigns(:units)).to eq([unit])
+    end
+
+    it "assigns building as @building" do
+      unit = Unit.create! valid_attributes
+      get :index, {building_id: building_id}, valid_session
+      expect(assigns(:building)).to eq(unit.building)
+    end 
+
+    it "doesn't get units from different buildings" do
+      unit = Unit.create! valid_attributes
+      get :index, {building_id: building_id}, valid_session
       expect(assigns(:units)).to eq([unit])
     end
   end
@@ -52,14 +68,21 @@ RSpec.describe UnitsController, type: :controller do
   describe "GET #show" do
     it "assigns the requested unit as @unit" do
       unit = Unit.create! valid_attributes
-      get :show, {:id => unit.to_param}, valid_session
+      get :show, {:id => unit.to_param, :building_id => building_id}, valid_session
       expect(assigns(:unit)).to eq(unit)
+    end
+
+    it "doesn't assign unit from the wrong building" do
+      unit = Unit.create! valid_attributes
+      expect{
+        get(:show, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}, valid_session)
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
   describe "GET #new" do
     it "assigns a new unit as @unit" do
-      get :new, {}, valid_session
+      get :new, {:building_id => building_id}, valid_session
       expect(assigns(:unit)).to be_a_new(Unit)
     end
   end
@@ -67,8 +90,15 @@ RSpec.describe UnitsController, type: :controller do
   describe "GET #edit" do
     it "assigns the requested unit as @unit" do
       unit = Unit.create! valid_attributes
-      get :edit, {:id => unit.to_param}, valid_session
+      get :edit, {:id => unit.to_param, :building_id => building_id}, valid_session
       expect(assigns(:unit)).to eq(unit)
+    end
+
+    it "doesn't assign unit from the wrong building" do
+      unit = Unit.create! valid_attributes
+      expect{
+        get :edit, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}, valid_session
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -76,30 +106,35 @@ RSpec.describe UnitsController, type: :controller do
     context "with valid params" do
       it "creates a new Unit" do
         expect {
-          post :create, {:unit => valid_attributes}, valid_session
+          post :create, {:unit => valid_attributes, :building_id => building_id}, valid_session
         }.to change(Unit, :count).by(1)
       end
 
       it "assigns a newly created unit as @unit" do
-        post :create, {:unit => valid_attributes}, valid_session
+        post :create, {:unit => valid_attributes, :building_id => building_id}, valid_session
         expect(assigns(:unit)).to be_a(Unit)
         expect(assigns(:unit)).to be_persisted
       end
 
       it "redirects to the created unit" do
-        post :create, {:unit => valid_attributes}, valid_session
-        expect(response).to redirect_to(Unit.last)
+        post :create, {:unit => valid_attributes, :building_id => building_id}, valid_session
+        expect(response).to redirect_to([Unit.last.building, Unit.last])
+      end
+
+      it "creates the unit for the correct building" do 
+        post :create, {:unit => valid_attributes, :building_id => unit_with_different_building.building_id}, valid_session
+        expect(assigns(:unit).building_id).to eq(unit_with_different_building.building_id)
       end
     end
 
     context "with invalid params" do
       it "assigns a newly created but unsaved unit as @unit" do
-        post :create, {:unit => invalid_attributes}, valid_session
+        post :create, {:unit => invalid_attributes, :building_id => building_id}, valid_session
         expect(assigns(:unit)).to be_a_new(Unit)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:unit => invalid_attributes}, valid_session
+        post :create, {:unit => invalid_attributes, :building_id => building_id}, valid_session
         expect(response).to render_template("new")
       end
     end
@@ -108,7 +143,7 @@ RSpec.describe UnitsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:valid_attributes) {
-        FactoryGirl.attributes_for(:unit, unit_number: "before_update")
+        FactoryGirl.attributes_for(:unit, unit_number: "before_update", building_id: building_id)
       }
 
       let(:new_attributes) {
@@ -117,34 +152,41 @@ RSpec.describe UnitsController, type: :controller do
 
       it "updates the requested unit" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => new_attributes}, valid_session
+        put :update, {:id => unit.to_param, :unit => new_attributes, :building_id => building_id}, valid_session
         unit.reload
         expect(unit.unit_number).to eq("after_update")
       end
 
       it "assigns the requested unit as @unit" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => valid_attributes}, valid_session
+        put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => building_id}, valid_session
         expect(assigns(:unit)).to eq(unit)
       end
 
       it "redirects to the unit" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => valid_attributes}, valid_session
-        expect(response).to redirect_to(unit)
+        put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => building_id}, valid_session
+        expect(response).to redirect_to([unit.building, unit])
+      end
+
+      it "doesn't assign unit from the wrong building" do
+        unit = Unit.create! valid_attributes
+        expect{
+          put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => unit_with_different_building.building_id}, valid_session
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
     context "with invalid params" do
       it "assigns the unit as @unit" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => invalid_attributes}, valid_session
+        put :update, {:id => unit.to_param, :unit => invalid_attributes, :building_id => building_id}, valid_session
         expect(assigns(:unit)).to eq(unit)
       end
 
       it "re-renders the 'edit' template" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => invalid_attributes}, valid_session
+        put :update, {:id => unit.to_param, :unit => invalid_attributes, :building_id => building_id}, valid_session
         expect(response).to render_template("edit")
       end
     end
@@ -154,14 +196,21 @@ RSpec.describe UnitsController, type: :controller do
     it "destroys the requested unit" do
       unit = Unit.create! valid_attributes
       expect {
-        delete :destroy, {:id => unit.to_param}, valid_session
+        delete :destroy, {:id => unit.to_param, :building_id => building_id}, valid_session
       }.to change(Unit, :count).by(-1)
     end
 
     it "redirects to the units list" do
       unit = Unit.create! valid_attributes
-      delete :destroy, {:id => unit.to_param}, valid_session
-      expect(response).to redirect_to(units_url)
+      delete :destroy, {:id => unit.to_param, :building_id => building_id}, valid_session
+      expect(response).to redirect_to(building_units_url(building_id))
+    end
+
+    it "doesn't assign unit from the wrong building" do
+      unit = Unit.create! valid_attributes
+      expect{
+        delete :destroy, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}, valid_session
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
