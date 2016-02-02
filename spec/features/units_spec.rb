@@ -11,7 +11,7 @@ RSpec.describe "Units", type: :feature do
       visit building_units_url(building)
       expect{
         click_link 'New Unit'
-        fill_in 'Unit Number', with: "101A"
+        fill_in 'Unit number', with: "101A"
         click_button "Create Unit"
       }.to change(building.units, :count).by(1)
       expect(page).to have_content "Unit was successfully created."
@@ -19,7 +19,7 @@ RSpec.describe "Units", type: :feature do
     end
 
     it "deletes a unit" do
-      unit = FactoryGirl.create(:unit, unit_number: "test_unit_number")
+      unit = FactoryGirl.create(:unit, unit_number: "test_unit_number", building: building)
       visit building_units_path(building)
       expect {
         click_link 'Destroy'

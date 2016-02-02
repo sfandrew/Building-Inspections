@@ -16,9 +16,9 @@
       <tr>
         <td><%= unit.building %></td>
         <td><%= unit.unit_number %></td>
-        <td><%= link_to 'Show', unit %></td>
+        <td><%= link_to 'Show', [unit.building, unit] %></td>
         <td><%= link_to 'Edit', edit_building_unit_path(unit.building, unit) %></td>
-        <td><%= link_to 'Destroy', unit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', building_unit_path(@building, unit), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Unit', new_building_unit_path() %>
+<%= link_to 'New Unit', new_building_unit_path(@building) %>

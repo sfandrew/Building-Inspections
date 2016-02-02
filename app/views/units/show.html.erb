@@ -10,5 +10,5 @@
   <%= @unit.unit_number %>
 </p>
 
-<%= link_to 'Edit', edit_unit_path(@unit) %> |
-<%= link_to 'Back', units_path %>
+<%= link_to 'Edit', edit_building_unit_path(@building, @unit) %> |
+<%= link_to 'Back', building_units_path(@building) %>
