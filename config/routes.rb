@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root to: "home#index"
+
   resources :inspections
   resources :buildings do 
     resources :units
