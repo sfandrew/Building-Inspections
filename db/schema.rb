@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20160201191257) do
     t.string   "type"
     t.string   "section"
     t.decimal  "weight"
-    t.integer  "position"
+    t.integer  "item_order"
     t.integer  "inspection_template_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
