@@ -1,25 +1,24 @@
-<p id="notice"><%= notice %></p>
+ <div ng-controller="InspectionTemplatesCtrl">
+  <p id="notice"><%= notice %></p>
 
-<h1>Listing Inspection Templates</h1>
+  <h1>Listing Inspection Templates</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @inspection_templates.each do |inspection_template| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= link_to 'Show', inspection_template %></td>
-        <td><%= link_to 'Edit', edit_inspection_template_path(inspection_template) %></td>
-        <td><%= link_to 'Destroy', inspection_template, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th colspan="3"></th>
+        <th>Name</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+        <tr ng-repeat="inspection_template in inspection_templates">
+          <td>{{ inspection_template.name }}</td>
+        </tr>
+    </tbody>
+  </table>
 
-<%= link_to 'New Inspection template', new_inspection_template_path %>
+  <br>
+
+  <%= link_to 'New Inspection template', new_inspection_template_path %>
+</div>
