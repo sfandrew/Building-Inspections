@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Items</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="inspection_template in inspection_templates">
+      <td><a href="#/inspection_templates/{{inspection_template.name}}">View</a></td>
+      <td>{{ inspection_template.name }}</td>
+      <td>
+        <div ng-repeat="item in inspection_template.items">{{ item.name }}</div> 
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<form ng-submit="addInspectionTemplate()">
+  <h3>New Inspection Template</h3>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Name" ng-model="name"></input>
+  </div>
+
+  <button type="submit">Add Template</button>
+</form>
