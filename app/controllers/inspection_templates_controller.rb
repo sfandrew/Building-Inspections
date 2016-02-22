@@ -1,10 +1,13 @@
 class InspectionTemplatesController < ApplicationController
   before_action :set_inspection_template, only: [:show, :edit, :update, :destroy]
 
+  respond_to :json
+
   # GET /inspection_templates
   # GET /inspection_templates.json
   def index
     @inspection_templates = InspectionTemplate.all
+    respond_with @inspection_templates
   end
 
   # GET /inspection_templates/1

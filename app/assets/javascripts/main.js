@@ -1,4 +1,4 @@
-var inspectionApp = angular.module('buildingInspections', ['templates', 'ui.router']);
+var inspectionApp = angular.module('buildingInspections', ['templates', 'ui.router', 'ngResource']);
 
 inspectionApp.config(function($stateProvider, $urlRouterProvider) {
 
@@ -25,40 +25,10 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
 
 });
 
-
-inspectionApp.factory('inspection_templates', [function(){
-  var o = {
-    inspection_templates: [
-      {
-        name: "test1",
-        items: [
-        {
-          name: 'item1',
-          section: 'section1'
-        },
-        {
-          name: 'item2',
-          section: 'section2'
-        }
-      ]
-      },
-      {
-        name: "test2",
-        items: [
-        {
-          name: 'item1',
-          section: 'section1'
-        },
-        {
-          name: 'item2',
-          section: 'section2'
-        }
-      ]
-      }
-    ]
-  };
-  return o;
-}]);
+inspectionApp.config(function($httpProvider) {
+  $httpProvider.defaults.headers.common['X-CSRF-Token'] =
+    $('meta[name=csrf-token]').attr('content');
+});
 
 inspectionApp.factory('inspection_template_items', [function(){
   var o = {
@@ -77,32 +47,6 @@ inspectionApp.factory('inspection_template_items', [function(){
 
 inspectionApp.controller('HomeCtrl', ['$scope', function($scope){
   $scope.title = 'Hello world!';
-}]);
-
-
-inspectionApp.controller('InspectionTemplatesCtrl', [
-  '$scope', 
-  '$stateParams', 
-  'inspection_templates',
-function($scope, $stateParams, inspection_templates) {
-  $scope.inspection_templates = inspection_templates.inspection_templates;
-
-  $scope.addInspectionTemplate = function() {
-    $scope.inspection_templates.push({
-      name: $scope.name,
-      items: [
-        {
-          name: 'item1',
-          section: 'section1'
-        },
-        {
-          name: 'item2',
-          section: 'section2'
-        }
-      ]
-    });
-    $scope.name = '';
-  };
 }]);
 
 
