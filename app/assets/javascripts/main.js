@@ -6,13 +6,19 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider.state('home', {
     url: "/home",
-    templateUrl: '/assets/home.html',
+    templateUrl: 'home.html',
     controller: 'HomeCtrl'
   });
 
   $stateProvider.state('inspection_templates', {
     url: '/inspection_templates',
-    templateUrl: '/assets/inspection_templates/_index.html',
+    templateUrl: 'inspection_templates/_index.html',
+    controller: 'InspectionTemplatesCtrl'
+  })
+
+  $stateProvider.state('inspection_template', {
+    url: '/inspection_templates/{id}',
+    templateUrl: 'inspection_templates/_show.html',
     controller: 'InspectionTemplatesCtrl'
   })
 
@@ -79,7 +85,6 @@ inspectionApp.controller('InspectionTemplatesCtrl', [
   '$stateParams', 
   'inspection_templates',
 function($scope, $stateParams, inspection_templates) {
-
   $scope.inspection_templates = inspection_templates.inspection_templates;
 
   $scope.addInspectionTemplate = function() {
