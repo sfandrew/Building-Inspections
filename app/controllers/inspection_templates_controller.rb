@@ -43,6 +43,8 @@ class InspectionTemplatesController < ApplicationController
   # PATCH/PUT /inspection_templates/1
   # PATCH/PUT /inspection_templates/1.json
   def update
+    @inspection_template.update_items(inspection_template_items_params)
+    Rails.logger.warn "\n\nPARAMS: #{inspection_template_params.inspect}\n\n"
     respond_to do |format|
       if @inspection_template.update(inspection_template_params)
         format.html { redirect_to @inspection_template, notice: 'Inspection template was successfully updated.' }
@@ -73,5 +75,9 @@ class InspectionTemplatesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def inspection_template_params
       params.require(:inspection_template).permit(:name)
+    end
+
+    def inspection_template_items_params
+      params.require(:inspection_template).permit(:items => [:id, :name, :section, :position])[:items]
     end
 end
