@@ -22,6 +22,12 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
     controller: 'InspectionTemplatesShowCtrl'
   })
 
+  $stateProvider.state('inspections', {
+    url: '/inspections',
+    templateUrl: 'inspections/_index.html',
+    controller: 'InspectionsIndexCtrl'
+  })
+
 
 });
 
@@ -33,21 +39,4 @@ inspectionApp.config(function($httpProvider) {
 
 inspectionApp.controller('HomeCtrl', ['$scope', function($scope){
   $scope.title = 'Hello world!';
-}]);
-
-
-inspectionApp.controller('InspectionTemplateItemsCtrl', [
-  '$scope', 
-  'inspection_template_items',
-  function($scope, items){
-    $scope.items = items.items;
-
-
-    $scope.toggleEdit = function(item) {
-      if (item.editing) {
-        item.editing = false;
-      } else {
-        item.editing = true;
-      }
-    };
 }]);
