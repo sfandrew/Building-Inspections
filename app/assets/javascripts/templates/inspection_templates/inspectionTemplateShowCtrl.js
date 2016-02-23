@@ -1,4 +1,4 @@
-angular.module('buildingInspections').controller('InspectionTemplatesShowCtrl', [
+angular.module('buildingInspections').controller('InspectionTemplateShowCtrl', [
   '$scope', 
   '$stateParams', 
   'inspection_templates',

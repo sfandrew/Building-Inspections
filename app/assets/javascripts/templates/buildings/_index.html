@@ -20,11 +20,27 @@
   </tbody>
 </table>
 
-<form ng-submit="addInspectionTemplate()">
+<form ng-submit="addBuilding()">
   <h3>New Building</h3>
 
   <div class="form-group">
-    <input type="text" class="form-control" placeholder="Name" ng-model="name"></input>
+    <input type="text" class="form-control" placeholder="Name" ng-model="building.name"></input>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Address" ng-model="building.address_line_1"></input>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Zip" ng-model="building.zip"></input>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="City" ng-model="building.city"></input>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="State" ng-model="building.state"></input>
   </div>
 
   <button type="submit">Add Building</button>

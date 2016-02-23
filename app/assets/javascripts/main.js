@@ -19,7 +19,7 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('inspection_template', {
     url: '/inspection_templates/{id}',
     templateUrl: 'inspection_templates/_show.html',
-    controller: 'InspectionTemplatesShowCtrl'
+    controller: 'InspectionTemplateShowCtrl'
   });
 
   $stateProvider.state('inspections', {
@@ -32,6 +32,12 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
     url: '/buildings',
     templateUrl: 'buildings/_index.html',
     controller: 'BuildingsIndexCtrl'
+  });
+
+  $stateProvider.state('building', {
+    url: '/buildings/{id}',
+    templateUrl: 'buildings/_show.html',
+    controller: 'BuildingShowCtrl'
   });
 
 
