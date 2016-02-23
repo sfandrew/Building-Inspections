@@ -11,10 +11,10 @@
 
   <tbody>
     <tr ng-repeat="inspection_template in inspection_templates">
-      <td><a href="#/inspection_templates/{{ $index + 1}}">View</a></td>
+      <td><a href="#/inspection_templates/{{ inspection_template.id }}">View</a></td>
       <td>{{ inspection_template.name }}</td>
       <td>
-        <div ng-repeat="item in inspection_template.items">{{ item.name }}</div> 
+        {{ inspection_template.items_count }}
       </td>
     </tr>
   </tbody>

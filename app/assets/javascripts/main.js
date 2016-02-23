@@ -14,19 +14,25 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
     url: '/inspection_templates',
     templateUrl: 'inspection_templates/_index.html',
     controller: 'InspectionTemplatesIndexCtrl'
-  })
+  });
 
   $stateProvider.state('inspection_template', {
     url: '/inspection_templates/{id}',
     templateUrl: 'inspection_templates/_show.html',
     controller: 'InspectionTemplatesShowCtrl'
-  })
+  });
 
   $stateProvider.state('inspections', {
     url: '/inspections',
     templateUrl: 'inspections/_index.html',
     controller: 'InspectionsIndexCtrl'
-  })
+  });
+
+  $stateProvider.state('buildings', {
+    url: '/buildings',
+    templateUrl: 'buildings/_index.html',
+    controller: 'BuildingsIndexCtrl'
+  });
 
 
 });

@@ -1,0 +1,31 @@
+<h1>Listing Buildings</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th># Units</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="building in buildings">
+      <td><a href="#/buildings/{{ building.id }}">View</a></td>
+      <td>{{ building.name }}</td>
+      <td>
+        {{ building.units_count }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<form ng-submit="addInspectionTemplate()">
+  <h3>New Building</h3>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Name" ng-model="name"></input>
+  </div>
+
+  <button type="submit">Add Building</button>
+</form>
