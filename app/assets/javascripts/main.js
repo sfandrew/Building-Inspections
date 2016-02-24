@@ -40,6 +40,12 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
     controller: 'BuildingShowCtrl'
   });
 
+  $stateProvider.state('new_unit', {
+    url: '/buildings/{id}/units/new',
+    templateUrl: 'buildings/units/_new.html',
+    controller: 'UnitNewCtrl'
+  });
+
 
 });
 

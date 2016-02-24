@@ -6,21 +6,11 @@
 <p>Zip: {{ building.zip }}</p>
 <p>City: {{ building.city }}</p>
 <p>State: {{ building.state }}</p>
-<div ng-repeat="unit in building.unit">
-
-  <span ng-hide="unit.editing">
-    {{ $index }}: Unit Number: {{ unit.number }}
-  </span>
-
-  <span ng-show="unit.editing" class="col-md-12">
-    <form ng-submit="toggleEdit(unit)">
-      <div class="col-md-4" class="form-group">
-        <input type="text" class="form-control" placeholder="Unit Number" ng-model="unit.unit_number"></input>
-      </div>
-      <button class="col-md-4" type="submit">Save unit</button>
-    </form>
-  </span>
-
-  <button ng-hide="unit.editing" ng-click="toggleEdit(unit)">Edit unit</button>
-  <button ng-click="deleteUnit(unit)">Delete Unit</button>
-</div>
+<p>Units:
+  <ul>
+    <li ng-repeat="unit in building.units">
+      Unit Number: {{ unit.unit_number }}
+    </li>
+  </ul>
+</p>
+<a href="#/buildings/{{ building.id }}/units/new" class="btn btn-success">New Unit</a>

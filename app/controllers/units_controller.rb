@@ -31,7 +31,7 @@ class UnitsController < ApplicationController
     respond_to do |format|
       if @unit.save
         format.html { redirect_to [@building, @unit], notice: 'Unit was successfully created.' }
-        format.json { render :show, status: :created, location: @unit }
+        format.json { render :show, status: :created, location: [@building, @unit] }
       else
         format.html { render :new }
         format.json { render json: @unit.errors, status: :unprocessable_entity }

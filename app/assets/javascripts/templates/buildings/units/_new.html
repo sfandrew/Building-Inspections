@@ -1,0 +1,12 @@
+<div class="page-header">
+  <h1>New Unit</h1>
+<div>
+<p>For building: {{ building.name }}</p>
+
+<form ng-submit="addUnit()">
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Unit Number" ng-model="unit.unit_number"></input>
+  </div>
+
+  <button type="submit">Add Unit</button>
+</form>
