@@ -10,7 +10,11 @@ function($scope, $stateParams, $state, buildings, units) {
   $scope.unit = {};
 
   $scope.addUnit = function(){
-    units.create({building_id: $scope.building.id, unit: $scope.unit}); 
-    $state.go('building', {id: $scope.building.id})
+    units.create({building_id: $scope.building.id, unit: $scope.unit}, function(data) {
+      $state.go('building', {id: $scope.building.id})      
+    }, function(error){
+      $scope.error = true;
+    });
+    $scope.loading = true;
   }
 }]);

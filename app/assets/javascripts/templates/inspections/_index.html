@@ -24,11 +24,29 @@
   <h3>New Inspection</h3>
 
   <div class="form-group">
-    <select ng-model="selected_template_id">
+    Template: <select ng-model="selected_template_id">
+      <option value="">---</option>
       <option ng-repeat="inspection_template in inspection_templates" value="{{ inspection_template.id }}">{{ inspection_template.name }}</option>
     </select>
   </div>
-  Selected: {{ selected_template_id }}
+  
+  <div class="form-group">
+    Building: <select ng-model="selected_building_id" ng-change="setSelectedBuilding()">
+      <option value="">---</option>
+      <option ng-repeat="building in buildings" value="{{ building.id }}">{{ building.name }}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    Unit: <select ng-model="selected_unit" 
+      ng-options="unit as unit.unit_number for unit in units track by unit.id">
+      <option value="">---</option>
+    </select>
+  </div>
+  <p>Selected Template: {{ selected_template_id }}</p>
+  <p>Selected Building: {{ selected_building_id }}, Name: {{ selected_building.name }}</p>
+  <p>Selected Unit: {{ selected_unit.unit_number }}</p>
+
 
   <div class="form-group">
     <input type="text" class="form-control" placeholder="Name" ng-model="name"></input>

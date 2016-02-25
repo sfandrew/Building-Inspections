@@ -47,7 +47,7 @@ class UnitsController < ApplicationController
     respond_to do |format|
       if @unit.update(unit_params)
         format.html { redirect_to [@building, @unit], notice: 'Unit was successfully updated.' }
-        format.json { render :show, status: :ok, location: @unit }
+        format.json { render :show, status: :ok, location: [@building, @unit] }
       else
         format.html { render :edit }
         format.json { render json: @unit.errors, status: :unprocessable_entity }

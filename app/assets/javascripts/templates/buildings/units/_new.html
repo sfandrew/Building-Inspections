@@ -3,10 +3,16 @@
 <div>
 <p>For building: {{ building.name }}</p>
 
-<form ng-submit="addUnit()">
+<form ng-submit="addUnit()" ng-hide="loading">
   <div class="form-group">
     <input type="text" class="form-control" placeholder="Unit Number" ng-model="unit.unit_number"></input>
   </div>
 
   <button type="submit">Add Unit</button>
 </form>
+<div ng-show="loading">
+  Loading...
+</div>
+<div ng-show="error">
+  Error!
+</div>
