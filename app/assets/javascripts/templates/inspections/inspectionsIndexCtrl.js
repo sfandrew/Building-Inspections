@@ -7,8 +7,14 @@ angular.module('buildingInspections').controller('InspectionsIndexCtrl', [
   'units',
 function($scope, $stateParams, inspections, inspection_templates, buildings, units) {
   
+  $scope.inspection = {}
+
   $scope.getInspectionTemplates = function() {
     $scope.inspection_templates = inspection_templates.index();
+  };
+
+  $scope.getInspections = function() {
+    $scope.inspections = inspections.index();
   };
 
   $scope.getBuildings = function() {
@@ -28,19 +34,26 @@ function($scope, $stateParams, inspections, inspection_templates, buildings, uni
   $scope.getUnitsForBuilding = function(building){
     units.index({building_id: building.id}, function(data){
       $scope.units = data;
-      $scope.selected_unit = $scope.units[0];
+      $scope.inspection.selected_unit = $scope.units[0];
     });
   };
 
-  // $scope.addInspectionTemplate = function() {
-  //   inspections.create({
-  //     name: $scope.name,
-  //   });
-  //   $scope.name = '';
-  //   $scope.getInspections()
-  // };
+  $scope.addInspection = function() {
+    inspections.create({
+      inspection: {
+        description: $scope.inspection.description,
+        template_id: $scope.inspection.template_id,
+        unit_id: $scope.inspection.selected_unit.id
+      }
+    }, function() {
+      $scope.getInspections();
+    });
+    $scope.inspection = {};
+    $scope.selected_building_id = "";
+  };
 
   $scope.getInspectionTemplates();
   $scope.getBuildings();
+  $scope.getInspections();
   
 }]);

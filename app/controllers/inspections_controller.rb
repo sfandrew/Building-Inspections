@@ -25,7 +25,6 @@ class InspectionsController < ApplicationController
   # POST /inspections.json
   def create
     @inspection = Inspection.new(inspection_params)
-    puts inspection_params
 
     respond_to do |format|
       if @inspection.save

@@ -28,6 +28,12 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
     controller: 'InspectionsIndexCtrl'
   });
 
+  $stateProvider.state('inspection', {
+    url: '/inspections/{id}',
+    templateUrl: 'inspections/_show.html',
+    controller: 'InspectionShowCtrl'
+  });
+
   $stateProvider.state('buildings', {
     url: '/buildings',
     templateUrl: 'buildings/_index.html',
