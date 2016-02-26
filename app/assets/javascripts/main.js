@@ -1,6 +1,7 @@
 var inspectionApp = angular.module('buildingInspections', ['templates', 'ui.router', 'ngResource']);
 
-inspectionApp.config(function($stateProvider, $urlRouterProvider) {
+inspectionApp.config(['$stateProvider', '$urlRouterProvider', 
+  function($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise('home');
 
@@ -53,12 +54,12 @@ inspectionApp.config(function($stateProvider, $urlRouterProvider) {
   });
 
 
-});
+}]);
 
-inspectionApp.config(function($httpProvider) {
+inspectionApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-CSRF-Token'] =
     $('meta[name=csrf-token]').attr('content');
-});
+}]);
 
 
 inspectionApp.controller('HomeCtrl', ['$scope', function($scope){
