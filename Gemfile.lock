@@ -244,7 +244,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   guard-rspec
-  jbuilder (= 2.4.0)
+  jbuilder (~> 2.0)
   jquery-rails
   pg
   quiet_assets
