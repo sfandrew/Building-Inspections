@@ -54,4 +54,25 @@ RSpec.describe Inspection, type: :model do
     end
   end
 
+  it "has a method to update multiple items" do
+    inspection_template = FactoryGirl.build(:inspection_template)
+
+    item1 = FactoryGirl.create(:inspection_template_item, name: "before1", inspection_template: inspection_template)
+    item2 = FactoryGirl.create(:inspection_template_item, name: "before2", inspection_template: inspection_template)
+
+    inspection_template.update(items_attributes: [{
+      id: item1.id,
+      name: "after1"
+      },
+      FactoryGirl.attributes_for(:inspection_template_item, name: "new", inspection_template: nil)
+      ])
+
+    inspection_template.save!
+
+    expect(inspection_template.items.count).to eq(3)
+    expect(inspection_template.items[0].name).to eq("after1")
+    expect(inspection_template.items[1].name).to eq("before2")
+    expect(inspection_template.items[2].name).to eq("new")
+  end
+
 end

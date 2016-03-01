@@ -1,11 +1,16 @@
 <h1>Listing Buildings</h1>
 
+<loading-indicator loading="loading"></loading-indicator>
+
+<div ng-hide="loading">
+
 <table class="table">
   <thead>
     <tr>
       <th></th>
       <th>Name</th>
       <th># Units</th>
+      <th>Delete</th>
     </tr>
   </thead>
 
@@ -16,9 +21,14 @@
       <td>
         {{ building.units_count }}
       </td>
+      <td>
+        <button ng-click="destroyBuilding(building)">Delete</button>
+      </td>
     </tr>
   </tbody>
 </table>
+
+</div>
 
 <form ng-submit="addBuilding()">
   <h3>New Building</h3>

@@ -1,11 +1,12 @@
 angular.module('buildingInspections').controller('InspectionsIndexCtrl', [
   '$scope', 
   '$stateParams',
+  '$state',
   'inspections',
   'inspection_templates',
   'buildings',
   'units',
-function($scope, $stateParams, inspections, inspection_templates, buildings, units) {
+function($scope, $stateParams, $state, inspections, inspection_templates, buildings, units) {
   
   $scope.inspection = {}
 
@@ -45,8 +46,10 @@ function($scope, $stateParams, inspections, inspection_templates, buildings, uni
         template_id: $scope.inspection.template_id,
         unit_id: $scope.inspection.selected_unit.id
       }
-    }, function() {
-      $scope.getInspections();
+    })
+    .$promise.then(function(data) {
+      $state.go('inspection', {id: data.id});
+      //$scope.inspections.push(data);
     });
     $scope.inspection = {};
     $scope.selected_building_id = "";

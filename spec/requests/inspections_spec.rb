@@ -41,7 +41,7 @@ RSpec.describe "Inspections", :type => :request do
     end
 
     describe "POST #create" do
-      it "creates and renders the inspection with its items" do
+      it "creates and renders the inspection with its items and items count" do
         unit = FactoryGirl.create(:unit)
         inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 4)
         expect {
@@ -61,6 +61,7 @@ RSpec.describe "Inspections", :type => :request do
 
         expect(parsed_response['description']).to eq("Test Description")
         expect(parsed_response['items'].length).to eq(4)
+        expect(parsed_response['items_count']).to eq(4)
       end
     end
 

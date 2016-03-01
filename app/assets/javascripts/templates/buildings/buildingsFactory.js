@@ -4,7 +4,7 @@ function($resource){
   
   return $resource("/buildings/:id.json", { id: "@id" },
     {
-      'create':  { method: 'POST' },
+      'create':  { method: 'POST', isArray: false },
       'index':   { method: 'GET', isArray: true },
       'show':    { method: 'GET', isArray: false },
       'update':  { method: 'PUT' },
