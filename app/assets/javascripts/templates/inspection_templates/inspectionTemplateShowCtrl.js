@@ -3,9 +3,16 @@ angular.module('buildingInspections').controller('InspectionTemplateShowCtrl', [
   '$stateParams', 
   'inspection_templates',
 function($scope, $stateParams, inspection_templates) {
-  
+  $scope.loading = true;
+
   $scope.getInspectionTemplate = function() {
-    $scope.inspection_template = inspection_templates.show({id: $stateParams.id});
+    inspection_templates.show({id: $stateParams.id})
+      .$promise.then(
+      function(data) {
+        $scope.inspection_template = data
+      }).finally(function() {
+        $scope.loading = false;
+      });
   };
 
   $scope.addItem = function() {

@@ -1,28 +1,33 @@
 <div class="page-header">
   <h1>Listing Inspection Template Items</h1>
 </div>
-<p>Template: {{ inspection_template.name }}</p>
 
-<div ng-repeat="item in inspection_template.items">
+<loading-indicator loading="loading"></loading-indicator>
 
-  <span ng-hide="item.editing">
-    {{ $index }}: Name: {{ item.name }}, Section: {{ item.section }}
-  </span>
+<div ng-show="inspection_template">
+  <p>Template: {{ inspection_template.name }}</p>
 
-  <span ng-show="item.editing" class="col-md-12">
-    <form ng-submit="toggleEdit(item)">
-      <div class="col-md-4" class="form-group">
-        <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
-      </div>
-      <div class="col-md-4" class="form-group">
-        <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
-      </div>
-      <button class="col-md-4" type="submit">Save Item</button>
-    </form>
-  </span>
+  <div ng-repeat="item in inspection_template.items">
 
-  <button ng-hide="item.editing" ng-click="toggleEdit(item)">Edit Item</button>
-  <button ng-click="deleteItem(item)">Delete Item</button>
+    <span ng-hide="item.editing">
+      {{ $index }}: Name: {{ item.name }}, Section: {{ item.section }}
+    </span>
+
+    <span ng-show="item.editing" class="col-md-12">
+      <form ng-submit="toggleEdit(item)">
+        <div class="col-md-4" class="form-group">
+          <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
+        </div>
+        <div class="col-md-4" class="form-group">
+          <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
+        </div>
+        <button class="col-md-4" type="submit">Save Item</button>
+      </form>
+    </span>
+
+    <button ng-hide="item.editing" ng-click="toggleEdit(item)">Edit Item</button>
+    <button ng-click="deleteItem(item)">Delete Item</button>
+  </div>
 </div>
 
 

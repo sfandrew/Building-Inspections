@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "InspectionTemplates", type: :feature do
   describe "Managing Templates" do
     it "creates a new template and displays its attributes" do
-      pending("Gonna work on html/layout/bootstrap etc first")
+      skip("Gonna work on html/layout/bootstrap etc first")
       visit inspection_templates_url
       expect{
         click_link 'New Template'

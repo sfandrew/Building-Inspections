@@ -1,6 +1,9 @@
 <h1>Listing Inspection Templates</h1>
 
-<table class="table">
+<loading-indicator loading="loading"></loading-indicator>
+<error-indicator error="error"></error-indicator>
+
+<table class="table" ng-show="inspection_templates">
   <thead>
     <tr>
       <th></th>
@@ -19,6 +22,8 @@
     </tr>
   </tbody>
 </table>
+
+
 
 <form ng-submit="addInspectionTemplate()">
   <h3>New Inspection Template</h3>

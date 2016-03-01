@@ -7,14 +7,22 @@ inspectionApp.config(['$stateProvider', '$urlRouterProvider',
 
   $stateProvider.state('home', {
     url: "/home",
-    templateUrl: 'home.html',
-    controller: 'HomeCtrl'
+    views: {
+      "@": {
+        controller: 'HomeCtrl',
+        templateUrl: 'home.html',
+      }
+    }
   });
 
   $stateProvider.state('inspection_templates', {
     url: '/inspection_templates',
-    templateUrl: 'inspection_templates/_index.html',
-    controller: 'InspectionTemplatesIndexCtrl'
+    views: {
+      "@": {
+        templateUrl: 'inspection_templates/_index.html',
+        controller: 'InspectionTemplatesIndexCtrl'
+      }
+    }
   });
 
   $stateProvider.state('inspection_template', {
@@ -56,12 +64,42 @@ inspectionApp.config(['$stateProvider', '$urlRouterProvider',
 
 }]);
 
+inspectionApp.component('testComp', {
+  template: "test comp {{ $ctrl.name }}",
+  controller: function() {
+  },
+  bindings: {
+    name: "@"
+  }
+});
+
+inspectionApp.component('loadingIndicator', {
+  templateUrl: "shared/_loading.html",
+  controller: function() {
+
+  },
+  bindings: {
+    loading: "<"
+  }
+});
+
+inspectionApp.component('errorIndicator', {
+  templateUrl: "shared/_error.html",
+  bindings: {
+    error: "="
+  }
+});
+
 inspectionApp.config(['$httpProvider', function($httpProvider) {
   $httpProvider.defaults.headers.common['X-CSRF-Token'] =
     $('meta[name=csrf-token]').attr('content');
 }]);
 
 
-inspectionApp.controller('HomeCtrl', ['$scope', function($scope){
+inspectionApp.controller('HomeCtrl', ['$scope', '$state', function($scope, $state){
   $scope.title = 'Hello world!';
+  $scope.name = "BEFORE";
+  $scope.changeName = function() {
+    $scope.name = "AFTER";
+  };
 }]);
