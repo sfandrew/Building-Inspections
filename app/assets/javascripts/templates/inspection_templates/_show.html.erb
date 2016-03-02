@@ -9,24 +9,27 @@
 
   <div ng-repeat="item in inspection_template.items">
 
-    <span ng-hide="item.editing">
-      {{ $index }}: Name: {{ item.name }}, Section: {{ item.section }}
+    <span ng-hide="item.editing" class="col-md-12">
+      <span class="col-md-8">{{ item.name }}, Section: {{ item.section }}, Weight: {{ item.weight }}</span>
+      <button ng-click="toggleEdit(item)" class="col-md-2">Edit Item</button>
+      <button  ng-click="deleteItem(item)" class="col-md-2">Delete Item</button>
     </span>
 
     <span ng-show="item.editing" class="col-md-12">
       <form ng-submit="toggleEdit(item)">
-        <div class="col-md-4" class="form-group">
-          <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
+        <div class="col-md-3" class="form-group">
+          Name: <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
         </div>
-        <div class="col-md-4" class="form-group">
-          <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
+        <div class="col-md-3" class="form-group">
+          Section: <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
         </div>
-        <button class="col-md-4" type="submit">Save Item</button>
+        <div class="col-md-3" class="form-group">
+          Weight: <input type="text" class="form-control" placeholder="Weight" ng-model="item.weight"></input>
+        </div>
+        <button class="col-md-2" type="submit">Save Item</button>
       </form>
     </span>
 
-    <button ng-hide="item.editing" ng-click="toggleEdit(item)">Edit Item</button>
-    <button ng-click="deleteItem(item)">Delete Item</button>
   </div>
 </div>
 
@@ -40,6 +43,10 @@
 
   <div class="form-group">
     <input type="text" class="form-control" placeholder="Section" ng-model="section"></input>
+  </div>
+
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Weight" ng-model="weight"></input>
   </div>
 
   <button type="submit">Add Item</button>

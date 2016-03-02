@@ -21,7 +21,8 @@ function($scope, $stateParams, inspection_templates) {
     }
     $scope.inspection_template.items.push({
       name: $scope.name,
-      section: $scope.section
+      section: $scope.section,
+      weight: $scope.weight
     });
 
     $scope.calcPositions();
@@ -30,6 +31,7 @@ function($scope, $stateParams, inspection_templates) {
 
     $scope.name = '';
     $scope.section = '';
+    $scope.weight = '';
   };
 
   $scope.deleteItem = function(item_to_delete) {

@@ -64,15 +64,6 @@ inspectionApp.config(['$stateProvider', '$urlRouterProvider',
 
 }]);
 
-inspectionApp.component('testComp', {
-  template: "test comp {{ $ctrl.name }}",
-  controller: function() {
-  },
-  bindings: {
-    name: "@"
-  }
-});
-
 inspectionApp.component('loadingIndicator', {
   templateUrl: "shared/_loading.html",
   controller: function() {
