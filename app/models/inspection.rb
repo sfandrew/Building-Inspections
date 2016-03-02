@@ -7,10 +7,9 @@ class Inspection < ActiveRecord::Base
   validates :unit, presence: true
   validates :template_id, presence: true, on: :create
 
-
   before_create :create_items_from_template
 
-
+  accepts_nested_attributes_for :items
 
   def template=(template)
     @template_id = template.id if template

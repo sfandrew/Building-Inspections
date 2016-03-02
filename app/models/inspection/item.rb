@@ -3,6 +3,7 @@ class Inspection::Item < ActiveRecord::Base
 
   validates :name, :weight, :section, :position, :inspection, presence: true
 
+  validate :validate_score
 
   def self.build_from_template_item(template_item)    
     self.new(
@@ -20,5 +21,15 @@ class Inspection::Item < ActiveRecord::Base
     return false if self.weight != template_item.weight
     return false if self.position != template_item.position
     true
+  end
+
+  private
+
+  def validate_score
+    return if score.nil?
+    unless (score >= 0) && (score <= 10)
+      errors.add(:score, "must be between 0 and 10, inclusive.")
+      return
+    end
   end
 end

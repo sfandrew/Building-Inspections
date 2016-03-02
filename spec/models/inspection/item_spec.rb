@@ -25,6 +25,15 @@ RSpec.describe Inspection::Item, type: :model do
     expect(FactoryGirl.build(:inspection_item, inspection: nil)).not_to be_valid      
   end
 
+  it "is invalid with a score outside of 0-10" do
+    expect(FactoryGirl.build(:inspection_item, score: 11)).not_to be_valid
+    expect(FactoryGirl.build(:inspection_item, score: -1)).not_to be_valid
+  end
+
+  it "is valid without a specified score" do
+    expect(FactoryGirl.build(:inspection_item, score: nil)).to be_valid      
+  end
+
   it "is built correctly from an inspection template item" do
     template_item = FactoryGirl.create(:inspection_template_item,
       section: "template_section",

@@ -54,25 +54,21 @@ RSpec.describe Inspection, type: :model do
     end
   end
 
-  it "has a method to update multiple items" do
-    inspection_template = FactoryGirl.build(:inspection_template)
+  it "has a method to update associated items" do
+    inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 2)
 
-    item1 = FactoryGirl.create(:inspection_template_item, name: "before1", inspection_template: inspection_template)
-    item2 = FactoryGirl.create(:inspection_template_item, name: "before2", inspection_template: inspection_template)
+    inspection = FactoryGirl.create(:inspection, template: inspection_template)
 
-    inspection_template.update(items_attributes: [{
-      id: item1.id,
-      name: "after1"
-      },
-      FactoryGirl.attributes_for(:inspection_template_item, name: "new", inspection_template: nil)
-      ])
+    inspection.update(items_attributes: [{
+      id: inspection.items[0].id,
+      score: 5
+      }])
 
-    inspection_template.save!
+    inspection.save!
 
-    expect(inspection_template.items.count).to eq(3)
-    expect(inspection_template.items[0].name).to eq("after1")
-    expect(inspection_template.items[1].name).to eq("before2")
-    expect(inspection_template.items[2].name).to eq("new")
+    expect(inspection.items.count).to eq(2)
+    expect(inspection.items[0].score.to_i).to eq(5)
+    expect(inspection.items[1].score).to eq(nil)
   end
 
 end
