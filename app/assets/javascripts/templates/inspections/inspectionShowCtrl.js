@@ -15,9 +15,12 @@ function($scope, $stateParams, inspections) {
   };
 
   $scope.saveInspection = function() {
+  	$scope.error = null;
   	$scope.loading = true;
   	inspections.update({id: $scope.inspection.id}, $scope.paramsForUpdate())
-  	.$promise.then($scope.setInspection)
+  	.$promise.then($scope.setInspection, function(error) {
+  		$scope.error = error.data
+  	})
   	.finally(function() {
   		$scope.loading = false;
   	});
