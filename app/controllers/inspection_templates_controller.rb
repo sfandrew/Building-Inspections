@@ -1,4 +1,5 @@
 class InspectionTemplatesController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_inspection_template, only: [:show, :edit, :update, :destroy]
 
   respond_to :json

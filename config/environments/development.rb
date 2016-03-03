@@ -41,4 +41,7 @@ Rails.application.configure do
 
   # Allows console logging from ssh
   config.web_console.whitelisted_ips = '192.168.0.0/16'
+
+  # Devise needs this
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

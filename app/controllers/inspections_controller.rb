@@ -1,4 +1,5 @@
 class InspectionsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_inspection, only: [:show, :edit, :update, :destroy]
 
   # GET /inspections
@@ -25,6 +26,8 @@ class InspectionsController < ApplicationController
   # POST /inspections.json
   def create
     @inspection = Inspection.new(inspection_params)
+
+    @inspection.user_id = current_user.id
 
     respond_to do |format|
       if @inspection.save

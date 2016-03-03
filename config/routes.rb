@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  devise_for :users
+
+  scope "/admin" do
+    resources :users
+  end
+
+  resources :roles
+
   root to: "home#index"
 
   resources :inspections
@@ -6,6 +14,7 @@ Rails.application.routes.draw do
     resources :units
   end
   resources :inspection_templates
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
