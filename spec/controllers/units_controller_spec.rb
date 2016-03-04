@@ -25,7 +25,7 @@ RSpec.describe UnitsController, type: :controller do
   # adjust the attributes here as well.
 
   let(:building_id) {
-    FactoryGirl.create(:building).id
+    FactoryGirl.create(:building, user: controller.current_user).id
   }
 
   let(:valid_attributes) {
@@ -36,181 +36,182 @@ RSpec.describe UnitsController, type: :controller do
     FactoryGirl.attributes_for(:invalid_unit, building_id: building_id)
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # UnitsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
   let (:unit_with_different_building) {
     FactoryGirl.create(:unit)
   }
 
-  describe "GET #index" do
-    it "assigns all units as @units" do
-      unit = Unit.create! valid_attributes
-      get :index, {building_id: building_id}, valid_session
-      expect(assigns(:units)).to eq([unit])
+  describe "whe logged in as a regular user" do
+    before(:each) do
+      sign_in FactoryGirl.create(:user)
     end
 
-    it "assigns building as @building" do
-      unit = Unit.create! valid_attributes
-      get :index, {building_id: building_id}, valid_session
-      expect(assigns(:building)).to eq(unit.building)
-    end 
-
-    it "doesn't get units from different buildings" do
-      unit = Unit.create! valid_attributes
-      get :index, {building_id: building_id}, valid_session
-      expect(assigns(:units)).to eq([unit])
-    end
-  end
-
-  describe "GET #show" do
-    it "assigns the requested unit as @unit" do
-      unit = Unit.create! valid_attributes
-      get :show, {:id => unit.to_param, :building_id => building_id}, valid_session
-      expect(assigns(:unit)).to eq(unit)
-    end
-
-    it "doesn't assign unit from the wrong building" do
-      unit = Unit.create! valid_attributes
-      expect{
-        get(:show, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}, valid_session)
-      }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new unit as @unit" do
-      get :new, {:building_id => building_id}, valid_session
-      expect(assigns(:unit)).to be_a_new(Unit)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested unit as @unit" do
-      unit = Unit.create! valid_attributes
-      get :edit, {:id => unit.to_param, :building_id => building_id}, valid_session
-      expect(assigns(:unit)).to eq(unit)
-    end
-
-    it "doesn't assign unit from the wrong building" do
-      unit = Unit.create! valid_attributes
-      expect{
-        get :edit, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}, valid_session
-      }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Unit" do
-        expect {
-          post :create, {:unit => valid_attributes, :building_id => building_id}, valid_session
-        }.to change(Unit, :count).by(1)
-      end
-
-      it "assigns a newly created unit as @unit" do
-        post :create, {:unit => valid_attributes, :building_id => building_id}, valid_session
-        expect(assigns(:unit)).to be_a(Unit)
-        expect(assigns(:unit)).to be_persisted
-      end
-
-      it "redirects to the created unit" do
-        post :create, {:unit => valid_attributes, :building_id => building_id}, valid_session
-        expect(response).to redirect_to([Unit.last.building, Unit.last])
-      end
-
-      it "creates the unit for the correct building" do 
-        post :create, {:unit => valid_attributes, :building_id => unit_with_different_building.building_id}, valid_session
-        expect(assigns(:unit).building_id).to eq(unit_with_different_building.building_id)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved unit as @unit" do
-        post :create, {:unit => invalid_attributes, :building_id => building_id}, valid_session
-        expect(assigns(:unit)).to be_a_new(Unit)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:unit => invalid_attributes, :building_id => building_id}, valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:valid_attributes) {
-        FactoryGirl.attributes_for(:unit, unit_number: "before_update", building_id: building_id)
-      }
-
-      let(:new_attributes) {
-        {unit_number: "after_update"}
-      }
-
-      it "updates the requested unit" do
+    describe "GET #index" do
+      it "assigns all units as @units" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => new_attributes, :building_id => building_id}, valid_session
-        unit.reload
-        expect(unit.unit_number).to eq("after_update")
+        get :index, {building_id: building_id}
+        expect(assigns(:units)).to eq([unit])
       end
 
+      it "assigns building as @building" do
+        unit = Unit.create! valid_attributes
+        get :index, {building_id: building_id}
+        expect(assigns(:building)).to eq(unit.building)
+      end 
+
+      it "doesn't get units from different buildings" do
+        unit = Unit.create! valid_attributes
+        get :index, {building_id: building_id}
+        expect(assigns(:units)).to eq([unit])
+      end
+    end
+
+    describe "GET #show" do
       it "assigns the requested unit as @unit" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => building_id}, valid_session
+        get :show, {:id => unit.to_param, :building_id => building_id}
         expect(assigns(:unit)).to eq(unit)
-      end
-
-      it "redirects to the unit" do
-        unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => building_id}, valid_session
-        expect(response).to redirect_to([unit.building, unit])
       end
 
       it "doesn't assign unit from the wrong building" do
         unit = Unit.create! valid_attributes
         expect{
-          put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => unit_with_different_building.building_id}, valid_session
+          get(:show, {:id => unit.to_param, :building_id => unit_with_different_building.building_id})
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the unit as @unit" do
+    describe "GET #new" do
+      it "assigns a new unit as @unit" do
+        get :new, {:building_id => building_id}
+        expect(assigns(:unit)).to be_a_new(Unit)
+      end
+    end
+
+    describe "GET #edit" do
+      it "assigns the requested unit as @unit" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => invalid_attributes, :building_id => building_id}, valid_session
+        get :edit, {:id => unit.to_param, :building_id => building_id}
         expect(assigns(:unit)).to eq(unit)
       end
 
-      it "re-renders the 'edit' template" do
+      it "doesn't assign unit from the wrong building" do
         unit = Unit.create! valid_attributes
-        put :update, {:id => unit.to_param, :unit => invalid_attributes, :building_id => building_id}, valid_session
-        expect(response).to render_template("edit")
+        expect{
+          get :edit, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
-  end
 
-  describe "DELETE #destroy" do
-    it "destroys the requested unit" do
-      unit = Unit.create! valid_attributes
-      expect {
-        delete :destroy, {:id => unit.to_param, :building_id => building_id}, valid_session
-      }.to change(Unit, :count).by(-1)
+    describe "POST #create" do
+      context "with valid params" do
+        it "creates a new Unit" do
+          expect {
+            post :create, {:unit => valid_attributes, :building_id => building_id}
+          }.to change(Unit, :count).by(1)
+        end
+
+        it "assigns a newly created unit as @unit" do
+          post :create, {:unit => valid_attributes, :building_id => building_id}
+          expect(assigns(:unit)).to be_a(Unit)
+          expect(assigns(:unit)).to be_persisted
+        end
+
+        it "redirects to the created unit" do
+          post :create, {:unit => valid_attributes, :building_id => building_id}
+          expect(response).to redirect_to([Unit.last.building, Unit.last])
+        end
+
+        it "creates the unit for the correct building" do 
+          post :create, {:unit => valid_attributes, :building_id => unit_with_different_building.building_id}
+          expect(assigns(:unit).building_id).to eq(unit_with_different_building.building_id)
+        end
+      end
+
+      context "with invalid params" do
+        it "assigns a newly created but unsaved unit as @unit" do
+          post :create, {:unit => invalid_attributes, :building_id => building_id}
+          expect(assigns(:unit)).to be_a_new(Unit)
+        end
+
+        it "re-renders the 'new' template" do
+          post :create, {:unit => invalid_attributes, :building_id => building_id}
+          expect(response).to render_template("new")
+        end
+      end
     end
 
-    it "redirects to the units list" do
-      unit = Unit.create! valid_attributes
-      delete :destroy, {:id => unit.to_param, :building_id => building_id}, valid_session
-      expect(response).to redirect_to(building_units_url(building_id))
+    describe "PUT #update" do
+      context "with valid params" do
+        let(:valid_attributes) {
+          FactoryGirl.attributes_for(:unit, unit_number: "before_update", building_id: building_id)
+        }
+
+        let(:new_attributes) {
+          {unit_number: "after_update"}
+        }
+
+        it "updates the requested unit" do
+          unit = Unit.create! valid_attributes
+          put :update, {:id => unit.to_param, :unit => new_attributes, :building_id => building_id}
+          unit.reload
+          expect(unit.unit_number).to eq("after_update")
+        end
+
+        it "assigns the requested unit as @unit" do
+          unit = Unit.create! valid_attributes
+          put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => building_id}
+          expect(assigns(:unit)).to eq(unit)
+        end
+
+        it "redirects to the unit" do
+          unit = Unit.create! valid_attributes
+          put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => building_id}
+          expect(response).to redirect_to([unit.building, unit])
+        end
+
+        it "doesn't assign unit from the wrong building" do
+          unit = Unit.create! valid_attributes
+          expect{
+            put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => unit_with_different_building.building_id}
+          }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
+      context "with invalid params" do
+        it "assigns the unit as @unit" do
+          unit = Unit.create! valid_attributes
+          put :update, {:id => unit.to_param, :unit => invalid_attributes, :building_id => building_id}
+          expect(assigns(:unit)).to eq(unit)
+        end
+
+        it "re-renders the 'edit' template" do
+          unit = Unit.create! valid_attributes
+          put :update, {:id => unit.to_param, :unit => invalid_attributes, :building_id => building_id}
+          expect(response).to render_template("edit")
+        end
+      end
     end
 
-    it "doesn't assign unit from the wrong building" do
-      unit = Unit.create! valid_attributes
-      expect{
-        delete :destroy, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}, valid_session
-      }.to raise_error(ActiveRecord::RecordNotFound)
+    describe "DELETE #destroy" do
+      it "destroys the requested unit" do
+        unit = Unit.create! valid_attributes
+        expect {
+          delete :destroy, {:id => unit.to_param, :building_id => building_id}
+        }.to change(Unit, :count).by(-1)
+      end
+
+      it "redirects to the units list" do
+        unit = Unit.create! valid_attributes
+        delete :destroy, {:id => unit.to_param, :building_id => building_id}
+        expect(response).to redirect_to(building_units_url(building_id))
+      end
+
+      it "doesn't assign unit from the wrong building" do
+        unit = Unit.create! valid_attributes
+        expect{
+          delete :destroy, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 

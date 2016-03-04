@@ -26,16 +26,17 @@ RSpec.describe InspectionsController, type: :controller do
   let(:valid_attributes) {
     FactoryGirl.attributes_for(
       :inspection, 
-      #unit: unit, 
-      #template: template
       ).tap do |x| 
         x[:unit_id] = x[:unit].id
         x[:template_id] = x[:template].id
+        x[:user_id] = controller.current_user.id
       end
   }
 
   let(:unit) {
-    FactoryGirl.create(:unit)
+    FactoryGirl.create(:unit, building:
+      FactoryGirl.create(:building, user_id: controller.current_user.id)
+    )
   }
   
   let(:template) {
@@ -46,129 +47,130 @@ RSpec.describe InspectionsController, type: :controller do
     valid_attributes.tap{|x| x[:unit_id] = nil }
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # InspectionsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  describe "when logged in as a regular user" do
 
-  describe "GET #index" do
-    it "assigns all inspections as @inspections" do
-      inspection = Inspection.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:inspections)).to eq([inspection])
-    end
-  end
-
-  describe "GET #show" do
-    it "assigns the requested inspection as @inspection" do
-      inspection = Inspection.create! valid_attributes
-      get :show, {:id => inspection.to_param}, valid_session
-      expect(assigns(:inspection)).to eq(inspection)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new inspection as @inspection" do
-      get :new, {}, valid_session
-      expect(assigns(:inspection)).to be_a_new(Inspection)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested inspection as @inspection" do
-      inspection = Inspection.create! valid_attributes
-      get :edit, {:id => inspection.to_param}, valid_session
-      expect(assigns(:inspection)).to eq(inspection)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Inspection" do
-        expect {
-          post :create, {:inspection => valid_attributes}, valid_session
-        }.to change(Inspection, :count).by(1)
-      end
-
-      it "assigns a newly created inspection as @inspection" do
-        post :create, {:inspection => valid_attributes}, valid_session
-        expect(assigns(:inspection)).to be_a(Inspection)
-        expect(assigns(:inspection)).to be_persisted
-      end
-
-      it "redirects to the created inspection" do
-        post :create, {:inspection => valid_attributes}, valid_session
-        expect(response).to redirect_to(Inspection.last)
-      end
+    before(:each) do
+      sign_in FactoryGirl.create(:user)
     end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved inspection as @inspection" do
-        post :create, {:inspection => invalid_attributes}, valid_session
-        expect(assigns(:inspection)).to be_a_new(Inspection)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:inspection => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        { description: "new description" }
-      }
-
-      it "updates the requested inspection" do
+    describe "GET #index" do
+      it "assigns all inspections as @inspections" do
         inspection = Inspection.create! valid_attributes
-        put :update, {:id => inspection.to_param, :inspection => new_attributes}, valid_session
-        inspection.reload
-        expect(inspection.description).to eq("new description")
+        get :index, {}
+        expect(assigns(:inspections)).to eq([inspection])
       end
+    end
 
+    describe "GET #show" do
       it "assigns the requested inspection as @inspection" do
         inspection = Inspection.create! valid_attributes
-        put :update, {:id => inspection.to_param, :inspection => valid_attributes}, valid_session
+        get :show, {:id => inspection.to_param}
         expect(assigns(:inspection)).to eq(inspection)
-      end
-
-      it "redirects to the inspection" do
-        inspection = Inspection.create! valid_attributes
-        put :update, {:id => inspection.to_param, :inspection => valid_attributes}, valid_session
-        expect(response).to redirect_to(inspection)
       end
     end
 
-    context "with invalid params" do
-      it "assigns the inspection as @inspection" do
+    describe "GET #new" do
+      it "assigns a new inspection as @inspection" do
+        get :new, {}
+        expect(assigns(:inspection)).to be_a_new(Inspection)
+      end
+    end
+
+    describe "GET #edit" do
+      it "assigns the requested inspection as @inspection" do
         inspection = Inspection.create! valid_attributes
-        put :update, {:id => inspection.to_param, :inspection => invalid_attributes}, valid_session
+        get :edit, {:id => inspection.to_param}
         expect(assigns(:inspection)).to eq(inspection)
       end
+    end
 
-      it "re-renders the 'edit' template" do
+    describe "POST #create" do
+      context "with valid params" do
+        it "creates a new Inspection" do
+          expect {
+            post :create, {:inspection => valid_attributes}
+          }.to change(Inspection, :count).by(1)
+        end
+
+        it "assigns a newly created inspection as @inspection" do
+          post :create, {:inspection => valid_attributes}
+          expect(assigns(:inspection)).to be_a(Inspection)
+          expect(assigns(:inspection)).to be_persisted
+        end
+
+        it "redirects to the created inspection" do
+          post :create, {:inspection => valid_attributes}
+          expect(response).to redirect_to(Inspection.last)
+        end
+      end
+
+      context "with invalid params" do
+        it "assigns a newly created but unsaved inspection as @inspection" do
+          post :create, {:inspection => invalid_attributes}
+          expect(assigns(:inspection)).to be_a_new(Inspection)
+        end
+
+        it "re-renders the 'new' template" do
+          post :create, {:inspection => invalid_attributes}
+          expect(response).to render_template("new")
+        end
+      end
+    end
+
+    describe "PUT #update" do
+      context "with valid params" do
+        let(:new_attributes) {
+          { description: "new description" }
+        }
+
+        it "updates the requested inspection" do
+          inspection = Inspection.create! valid_attributes
+          put :update, {:id => inspection.to_param, :inspection => new_attributes}
+          inspection.reload
+          expect(inspection.description).to eq("new description")
+        end
+
+        it "assigns the requested inspection as @inspection" do
+          inspection = Inspection.create! valid_attributes
+          put :update, {:id => inspection.to_param, :inspection => valid_attributes}
+          expect(assigns(:inspection)).to eq(inspection)
+        end
+
+        it "redirects to the inspection" do
+          inspection = Inspection.create! valid_attributes
+          put :update, {:id => inspection.to_param, :inspection => valid_attributes}
+          expect(response).to redirect_to(inspection)
+        end
+      end
+
+      context "with invalid params" do
+        it "assigns the inspection as @inspection" do
+          inspection = Inspection.create! valid_attributes
+          put :update, {:id => inspection.to_param, :inspection => invalid_attributes}
+          expect(assigns(:inspection)).to eq(inspection)
+        end
+
+        it "re-renders the 'edit' template" do
+          inspection = Inspection.create! valid_attributes
+          put :update, {:id => inspection.to_param, :inspection => invalid_attributes}
+          expect(response).to render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE #destroy" do
+      it "destroys the requested inspection" do
         inspection = Inspection.create! valid_attributes
-        put :update, {:id => inspection.to_param, :inspection => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        expect {
+          delete :destroy, {:id => inspection.to_param}
+        }.to change(Inspection, :count).by(-1)
+      end
+
+      it "redirects to the inspections list" do
+        inspection = Inspection.create! valid_attributes
+        delete :destroy, {:id => inspection.to_param}
+        expect(response).to redirect_to(inspections_url)
       end
     end
   end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested inspection" do
-      inspection = Inspection.create! valid_attributes
-      expect {
-        delete :destroy, {:id => inspection.to_param}, valid_session
-      }.to change(Inspection, :count).by(-1)
-    end
-
-    it "redirects to the inspections list" do
-      inspection = Inspection.create! valid_attributes
-      delete :destroy, {:id => inspection.to_param}, valid_session
-      expect(response).to redirect_to(inspections_url)
-    end
-  end
-
 end

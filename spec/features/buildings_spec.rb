@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Buildings", type: :feature do
   describe "Managing Buildings" do
     it "creates a new building and displays its attributes" do
+      skip("Obsolete with angular interface?")
       visit buildings_url
       expect{
         click_link 'New Building'
@@ -22,6 +23,7 @@ RSpec.describe "Buildings", type: :feature do
     end
 
     it "deletes a building" do
+      skip("Obsolete with angular interface?")
       building = FactoryGirl.create(:building, name: "testbuilding")
       visit buildings_path
       expect {

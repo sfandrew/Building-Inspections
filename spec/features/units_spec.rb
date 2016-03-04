@@ -8,6 +8,7 @@ RSpec.describe "Units", type: :feature do
 
   describe "Managing Units" do
     it "creates a new unit and displays its attributes" do
+      skip("Obsolete with angular interface?")
       visit building_units_url(building)
       expect{
         click_link 'New Unit'
@@ -19,6 +20,7 @@ RSpec.describe "Units", type: :feature do
     end
 
     it "deletes a unit" do
+      skip("Obsolete with angular interface?")
       unit = FactoryGirl.create(:unit, unit_number: "test_unit_number", building: building)
       visit building_units_path(building)
       expect {

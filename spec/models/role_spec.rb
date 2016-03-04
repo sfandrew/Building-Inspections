@@ -1,5 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Role, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "loads the base roles correctly" do
+  	expect(Role.where(name: "Regular")).to exist
+  	expect(Role.where(name: "Admin")).to exist
+  end
 end
