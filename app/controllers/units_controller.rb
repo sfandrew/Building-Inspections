@@ -2,7 +2,6 @@ class UnitsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_building
 
-  authorize_resource
 
   # GET /units
   # GET /units.json
@@ -14,6 +13,7 @@ class UnitsController < ApplicationController
   # GET /units/1.json
   def show
     set_unit
+    authorize! :read, @unit
   end
 
   # GET /units/new
@@ -24,11 +24,14 @@ class UnitsController < ApplicationController
   # GET /units/1/edit
   def edit
     set_unit
+    authorize! :update, @unit
   end
 
   # POST /units
   # POST /units.json
   def create
+    authorize! :update, @building
+
     @unit = @building.units.new(unit_params)
 
     respond_to do |format|
@@ -47,6 +50,8 @@ class UnitsController < ApplicationController
   def update
     set_unit
 
+    authorize! :update, @unit
+
     respond_to do |format|
       if @unit.update(unit_params)
         format.html { redirect_to [@building, @unit], notice: 'Unit was successfully updated.' }
@@ -63,6 +68,8 @@ class UnitsController < ApplicationController
   def destroy
     set_unit
 
+    authorize! :destroy, @unit
+
     @unit.destroy
     respond_to do |format|
       format.html { redirect_to building_units_url(@building), notice: 'Unit was successfully destroyed.' }
@@ -78,6 +85,7 @@ class UnitsController < ApplicationController
 
     def set_building
       @building = Building.find(params[:building_id])
+      authorize! :read, @building
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

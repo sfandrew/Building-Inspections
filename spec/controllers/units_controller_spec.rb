@@ -37,7 +37,27 @@ RSpec.describe UnitsController, type: :controller do
   }
 
   let (:unit_with_different_building) {
-    FactoryGirl.create(:unit)
+    FactoryGirl.create(:unit, 
+      building: FactoryGirl.create(:building, user: controller.current_user))
+  }
+
+
+  let(:valid_attributes_wrong_user) {
+    FactoryGirl.attributes_for(:unit,
+      building_id: building_id_wrong_user)
+  }
+
+  let(:building_id_wrong_user) {
+    FactoryGirl.create(:building, user: wrong_user).id
+  }
+
+  let (:unit_with_wrong_user) {
+    FactoryGirl.create(:unit,
+      building_id: building_id_wrong_user)
+  }
+
+  let (:wrong_user) {
+    FactoryGirl.create(:user)
   }
 
   describe "whe logged in as a regular user" do
@@ -63,6 +83,14 @@ RSpec.describe UnitsController, type: :controller do
         get :index, {building_id: building_id}
         expect(assigns(:units)).to eq([unit])
       end
+
+      context "when accessing an unpermitted building's units" do
+        it "redirects" do
+          unit = unit_with_wrong_user
+          get :index, {building_id: unit.building_id}
+          expect(response.status).to eq(302)
+        end
+      end
     end
 
     describe "GET #show" do
@@ -78,12 +106,27 @@ RSpec.describe UnitsController, type: :controller do
           get(:show, {:id => unit.to_param, :building_id => unit_with_different_building.building_id})
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
+
+      context "when accessing an unpermitted building's unit" do
+        it "denies authorization and redirects" do
+          unit = unit_with_wrong_user
+          get :show, {:id => unit.to_param, :building_id => unit.building_id}
+          expect(response.status).to eq(302)
+        end
+      end
     end
 
     describe "GET #new" do
       it "assigns a new unit as @unit" do
         get :new, {:building_id => building_id}
         expect(assigns(:unit)).to be_a_new(Unit)
+      end
+
+      context "when accessing an unpermitted building's units" do
+        it "redirects" do
+          get :new, {:building_id => unit_with_wrong_user.building_id}
+          expect(response.status).to eq(302)
+        end
       end
     end
 
@@ -99,6 +142,14 @@ RSpec.describe UnitsController, type: :controller do
         expect{
           get :edit, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}
         }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      context "when accessing an unpermitted building's units" do
+        it "redirects" do
+          unit = unit_with_wrong_user
+          get :edit, {:id => unit.to_param, :building_id => unit.building_id}
+          expect(response.status).to eq(302)
+        end
       end
     end
 
@@ -124,6 +175,15 @@ RSpec.describe UnitsController, type: :controller do
         it "creates the unit for the correct building" do 
           post :create, {:unit => valid_attributes, :building_id => unit_with_different_building.building_id}
           expect(assigns(:unit).building_id).to eq(unit_with_different_building.building_id)
+        end
+
+        context "when accessing an unpermitted building's units" do
+          it "redirects and doesn't create a new unit" do
+            expect {
+              post :create, {:unit => valid_attributes_wrong_user, :building_id => building_id_wrong_user}
+            }.to change(Unit, :count).by(0)
+            expect(response.status).to eq(302)
+          end
         end
       end
 
@@ -175,6 +235,17 @@ RSpec.describe UnitsController, type: :controller do
             put :update, {:id => unit.to_param, :unit => valid_attributes, :building_id => unit_with_different_building.building_id}
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
+
+        context "when accessing an unpermitted building's units" do
+          it "redirects and doesn't update the unit" do
+            unit = unit_with_wrong_user
+
+            put :update, {:id => unit.to_param, :unit => new_attributes, :building_id => unit_with_wrong_user.building_id}
+            unit.reload
+            expect(unit.unit_number).not_to eq("after_update")
+            expect(response.status).to eq(302)
+          end
+        end
       end
 
       context "with invalid params" do
@@ -211,6 +282,16 @@ RSpec.describe UnitsController, type: :controller do
         expect{
           delete :destroy, {:id => unit.to_param, :building_id => unit_with_different_building.building_id}
         }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      context "when accessing an unpermitted building's units" do
+        it "redirects and doesn't delete the unit" do
+          unit = unit_with_wrong_user
+          expect {
+            delete :destroy, {:id => unit.to_param, :building_id => unit.building_id}
+          }.to change(Unit, :count).by(0)
+          expect(response.status).to eq(302)
+        end
       end
     end
   end
