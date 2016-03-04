@@ -7,7 +7,7 @@ class InspectionsController < ApplicationController
   # GET /inspections
   # GET /inspections.json
   def index
-    @inspections = Inspection.all
+    @inspections = Inspection.where(user: current_user)
   end
 
   # GET /inspections/1

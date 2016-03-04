@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   before_save :assign_role
 
   has_many :inspections
+  has_many :buildings
 
   def assign_role
   	self.role = Role.find_by name: "Regular" if self.role.nil?
@@ -16,5 +17,9 @@ class User < ActiveRecord::Base
 
   def admin?
     self.role.name == "Admin"
+  end
+
+  def regular?
+    self.role.name == "Regular"
   end
 end
