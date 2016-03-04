@@ -27,8 +27,16 @@ RSpec.describe BuildingsController, type: :controller do
     FactoryGirl.attributes_for(:building, user_id: controller.current_user.id)
   }
 
+  let(:valid_attributes_wrong_user) {
+    FactoryGirl.attributes_for(:building, user_id: wrong_user.id)
+  }  
+
   let(:invalid_attributes) {
     FactoryGirl.attributes_for(:invalid_building)
+  }
+
+  let(:wrong_user) {
+    FactoryGirl.create(:user)
   }
 
   describe "when logged in as a regular user" do
@@ -38,8 +46,9 @@ RSpec.describe BuildingsController, type: :controller do
     end
 
     describe "GET #index" do
-      it "assigns all buildings as @buildings" do
+      it "assigns only logged in user's buildings as @buildings" do
         building = Building.create! valid_attributes
+        wrong_building = Building.create! valid_attributes_wrong_user
         get :index, {}
         expect(assigns(:buildings)).to eq([building])
       end
@@ -50,6 +59,12 @@ RSpec.describe BuildingsController, type: :controller do
         building = Building.create! valid_attributes
         get :show, {:id => building.to_param}
         expect(assigns(:building)).to eq(building)
+      end
+
+      it "redirects if the user isn't permitted to view the building" do
+        wrong_building = Building.create! valid_attributes_wrong_user
+        get :show, {:id => wrong_building.to_param}
+        expect(response.status).to be(302)
       end
     end
 
@@ -65,6 +80,12 @@ RSpec.describe BuildingsController, type: :controller do
         building = Building.create! valid_attributes
         get :edit, {:id => building.to_param}
         expect(assigns(:building)).to eq(building)
+      end
+
+      it "redirects if the user isn't permitted to edit the building" do
+        wrong_building = Building.create! valid_attributes_wrong_user
+        get :edit, {:id => wrong_building.to_param}
+        expect(response.status).to be(302)
       end
     end
 
@@ -132,6 +153,16 @@ RSpec.describe BuildingsController, type: :controller do
           put :update, {:id => building.to_param, :building => valid_attributes}
           expect(response).to redirect_to(building)
         end
+
+        context "when editing an unpermitted building" do
+          it "redirects and doesn't update" do
+            wrong_building = Building.create! valid_attributes_wrong_user
+            put :update, {:id => wrong_building.to_param, :building => new_attributes}
+            wrong_building.reload
+            expect(response.status).to be(302)
+            expect(wrong_building.name).not_to eq("after_update")
+          end
+        end
       end
 
       context "with invalid params" do
@@ -161,6 +192,16 @@ RSpec.describe BuildingsController, type: :controller do
         building = Building.create! valid_attributes
         delete :destroy, {:id => building.to_param}
         expect(response).to redirect_to(buildings_url)
+      end
+
+      context "when deleting an unpermitted building" do
+        it "redirects and doesn't delete" do
+          wrong_building = Building.create! valid_attributes_wrong_user
+          expect {
+            delete :destroy, {:id => wrong_building.to_param}
+          }.to change(Building, :count).by(0)
+          expect(response.status).to be(302)
+        end
       end
     end
   end
