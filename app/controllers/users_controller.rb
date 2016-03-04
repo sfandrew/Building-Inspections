@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   respond_to :html
 
+  authorize_resource
+
   def index
     @users = User.all
     respond_with(@users)

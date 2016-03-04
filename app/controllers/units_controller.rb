@@ -2,6 +2,8 @@ class UnitsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_building
 
+  authorize_resource
+
   # GET /units
   # GET /units.json
   def index

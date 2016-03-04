@@ -4,6 +4,8 @@ class RolesController < ApplicationController
 
   respond_to :html
 
+  authorize_resource
+
   def index
     @roles = Role.all
     respond_with(@roles)

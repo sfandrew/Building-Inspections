@@ -2,6 +2,8 @@ class InspectionsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_inspection, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /inspections
   # GET /inspections.json
   def index

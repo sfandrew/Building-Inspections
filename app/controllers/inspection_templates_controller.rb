@@ -4,6 +4,8 @@ class InspectionTemplatesController < ApplicationController
 
   respond_to :json
 
+  authorize_resource
+
   # GET /inspection_templates
   # GET /inspection_templates.json
   def index

@@ -2,6 +2,8 @@ class BuildingsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_building, only: [:show, :edit, :update, :destroy]
 
+  authorize_resource
+
   # GET /buildings
   # GET /buildings.json
   def index
