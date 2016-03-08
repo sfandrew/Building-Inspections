@@ -25,6 +25,10 @@ RSpec.describe InspectionTemplate::Item, type: :model do
     expect(FactoryGirl.build(:inspection_template_item, weight: nil)).not_to be_valid
   end
 
+  it "is invalid without a scoring type" do
+    expect(FactoryGirl.build(:inspection_template_item, score_type: nil)).not_to be_valid
+  end
+
   it "should have unique order number within same template" do
     template = FactoryGirl.create(:inspection_template_with_items, items_count: 5)
     expect(template.items.pluck(:position).uniq.length).to eq(template.items.length)

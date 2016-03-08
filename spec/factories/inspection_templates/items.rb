@@ -5,6 +5,7 @@ FactoryGirl.define do
     weight "10.0"
     name "template name"
     sequence(:position)
+    score_type "PassFail"
     inspection_template { FactoryGirl.create(:inspection_template) }
   end
 
