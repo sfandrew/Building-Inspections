@@ -43,7 +43,6 @@ RSpec.describe "Inspections", :type => :request do
           expect(response.content_type).to eq("application/json")
           expect(response.status).to be(200)
           parsed_response = JSON.parse(response.body)
-          puts parsed_response
           expect(parsed_response['description']).to eq("Test Description")
           expect(parsed_response['items'].length).to eq(4)
           expect(parsed_response['items'][0]['section']).to eq("item_0_section")
