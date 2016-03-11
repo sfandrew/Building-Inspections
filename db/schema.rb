@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308215716) do
+ActiveRecord::Schema.define(version: 20160311004534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,13 +33,14 @@ ActiveRecord::Schema.define(version: 20160308215716) do
     t.decimal  "weight"
     t.integer  "position"
     t.string   "section"
-    t.decimal  "score"
     t.text     "comment"
     t.string   "type"
     t.string   "status"
     t.integer  "inspection_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "score_type"
+    t.string   "raw_score"
   end
 
   create_table "inspection_template_items", force: :cascade do |t|

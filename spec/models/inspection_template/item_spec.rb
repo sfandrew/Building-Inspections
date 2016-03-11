@@ -21,10 +21,6 @@ RSpec.describe InspectionTemplate::Item, type: :model do
     expect(FactoryGirl.build(:inspection_template_item, name: nil)).not_to be_valid
   end
 
-  it "is invalid without a weight" do
-    expect(FactoryGirl.build(:inspection_template_item, weight: nil)).not_to be_valid
-  end
-
   it "is invalid without a scoring type" do
     expect(FactoryGirl.build(:inspection_template_item, score_type: nil)).not_to be_valid
   end

@@ -4,6 +4,10 @@ class Score
     @raw_score
   end
 
+  def type
+    self.class.name.split("::").last
+  end
+
   def self.create(score_type)
     if valid_score_types.include?(score_type)
       const_get(score_type).new

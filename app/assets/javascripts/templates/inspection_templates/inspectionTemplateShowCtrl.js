@@ -2,8 +2,12 @@ angular.module('buildingInspections').controller('InspectionTemplateShowCtrl', [
   '$scope', 
   '$stateParams', 
   'inspection_templates',
-function($scope, $stateParams, inspection_templates) {
+  'scores',
+function($scope, $stateParams, inspection_templates, scores) {
   $scope.loading = true;
+  $scope.validScoreTypes = scores.validScoreTypes;
+  $scope.newItem = {};
+  console.log(scores.validScoreTypes);
 
   $scope.getInspectionTemplate = function() {
     inspection_templates.show({id: $stateParams.id})
@@ -16,46 +20,24 @@ function($scope, $stateParams, inspection_templates) {
   };
 
   $scope.addItem = function() {
-    if (!$scope.name || $scope.name === '') {
+    if (!$scope.newItem.name || $scope.newItem.name === '') {
       return;
     }
     $scope.inspection_template.items.push({
-      name: $scope.name,
-      section: $scope.section,
-      weight: $scope.weight
+      name: $scope.newItem.name,
+      section: $scope.newItem.section,
+      score_type: $scope.newItem.score_type
     });
 
     $scope.calcPositions();
 
-    $scope.inspection_template = inspection_templates.update({id: $stateParams.id}, $scope.paramsForUpdate());
+    $scope.inspection_template = inspection_templates.update($scope.inspection_template);
 
-    $scope.name = '';
-    $scope.section = '';
-    $scope.weight = '';
+    $scope.newItem = {};
   };
 
   $scope.deleteItem = function(item_to_delete) {
-    $scope.inspection_template = inspection_templates.update({id: $stateParams.id}, $scope.paramsForDeletingItem(item_to_delete));
-  };
-
-  $scope.paramsForUpdate = function() {
-    return {
-      inspection_template: {
-        name: $scope.inspection_template.name,
-        items_attributes: $scope.inspection_template.items
-      }
-    };
-  };
-
-  $scope.paramsForDeletingItem = function(item_to_delete) {
-    return {
-      inspection_template: {
-        items_attributes: {
-          id: item_to_delete.id,
-          _destroy: true
-        }
-      }
-    };
+    $scope.inspection_template = inspection_templates.destroy_item({id: $scope.inspection_template.id}, item_to_delete);
   };
 
   $scope.calcPositions = function() {
@@ -67,7 +49,7 @@ function($scope, $stateParams, inspection_templates) {
   $scope.toggleEdit = function(item) {
     if (item.editing) {
       item.editing = false;
-      inspection_templates.update({id: $stateParams.id}, $scope.paramsForUpdate());
+      inspection_templates.update($scope.inspection_template);
       $scope.getInspectionTemplate();
     } else {
       item.editing = true;

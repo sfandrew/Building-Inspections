@@ -61,14 +61,14 @@ RSpec.describe Inspection, type: :model do
 
     inspection.update(items_attributes: [{
       id: inspection.items[0].id,
-      score: 5
+      raw_score: 5
       }])
 
     inspection.save!
 
     expect(inspection.items.count).to eq(2)
-    expect(inspection.items[0].score.to_i).to eq(5)
-    expect(inspection.items[1].score).to eq(nil)
+    expect(inspection.items[0].raw_score.to_i).to eq(5)
+    expect(inspection.items[1].raw_score).to eq(nil)
   end
 
 end

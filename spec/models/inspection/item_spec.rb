@@ -9,10 +9,6 @@ RSpec.describe Inspection::Item, type: :model do
     expect(FactoryGirl.build(:inspection_item, name: nil)).not_to be_valid
   end
 
-  it "is invalid without a weight" do
-    expect(FactoryGirl.build(:inspection_item, weight: nil)).not_to be_valid
-  end
-
   it "is invalid without a section" do
     expect(FactoryGirl.build(:inspection_item, section: nil)).not_to be_valid
   end
@@ -25,13 +21,8 @@ RSpec.describe Inspection::Item, type: :model do
     expect(FactoryGirl.build(:inspection_item, inspection: nil)).not_to be_valid      
   end
 
-  it "is invalid with a score outside of 0-10" do
-    expect(FactoryGirl.build(:inspection_item, score: 11)).not_to be_valid
-    expect(FactoryGirl.build(:inspection_item, score: -1)).not_to be_valid
-  end
-
-  it "is valid without a specified score" do
-    expect(FactoryGirl.build(:inspection_item, score: nil)).to be_valid      
+  it "is valid without a specified raw score" do
+    expect(FactoryGirl.build(:inspection_item, raw_score: nil)).to be_valid      
   end
 
   it "is built correctly from an inspection template item" do
@@ -41,5 +32,9 @@ RSpec.describe Inspection::Item, type: :model do
       position: 4)
     inspection_item = Inspection::Item.build_from_template_item(template_item)
     expect(inspection_item.matches_template_item?(template_item)).to be true
+  end
+
+  it "has a score object of the proper type" do
+    expect(FactoryGirl.create(:inspection_item, score_type: "PassFail").score.type).to eq("PassFail")
   end
 end

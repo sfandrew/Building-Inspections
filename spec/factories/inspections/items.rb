@@ -4,7 +4,6 @@ FactoryGirl.define do
     weight "5"
     position 1
     section "FakeSection"
-    score "4"
     inspection { FactoryGirl.create(:inspection) }
   end
 

@@ -5,7 +5,6 @@ class InspectionTemplate::Item < ActiveRecord::Base
   :inspection_template, 
   :position, 
   :section, 
-  :weight,
   :score_type, 
   	presence: true
 end

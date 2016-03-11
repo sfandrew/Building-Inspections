@@ -35,7 +35,7 @@ RSpec.describe "Inspections", :type => :request do
             x[:template_id] = inspection_template.id
           }
 
-          inspection.items[0].score = 5
+          inspection.items[0].raw_score = 5
           inspection.save!
 
           get inspection_path(inspection), {format: :json}
@@ -43,11 +43,11 @@ RSpec.describe "Inspections", :type => :request do
           expect(response.content_type).to eq("application/json")
           expect(response.status).to be(200)
           parsed_response = JSON.parse(response.body)
-
+          puts parsed_response
           expect(parsed_response['description']).to eq("Test Description")
           expect(parsed_response['items'].length).to eq(4)
           expect(parsed_response['items'][0]['section']).to eq("item_0_section")
-          expect(parsed_response['items'][0]['score'].to_i).to eq(5)
+          expect(parsed_response['items'][0]['raw_score'].to_i).to eq(5)
         end
       end
 
@@ -96,13 +96,13 @@ RSpec.describe "Inspections", :type => :request do
           expect(parsed_response['description']).to eq("after")
         end
 
-        it "updates associated items' scores" do
+        it "updates associated items' raw_scores" do
           inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 2)
           inspection = Inspection.create! valid_attributes.tap{|x| 
             x[:template] = inspection_template
           }
-          inspection.items[0].score = 1
-          inspection.items[1].score = 2
+          inspection.items[0].raw_score = 1
+          inspection.items[1].raw_score = 2
           inspection.save!
 
           put(
@@ -111,7 +111,7 @@ RSpec.describe "Inspections", :type => :request do
               {
                 items_attributes: {
                   id: inspection.items[0].id,
-                  score: 3
+                  raw_score: 3
                 }
               }
             }
@@ -121,8 +121,8 @@ RSpec.describe "Inspections", :type => :request do
           expect(response.status).to be(200)
           parsed_response = JSON.parse(response.body)
           expect(parsed_response['items'].length).to eq(2)
-          expect(parsed_response['items'][0]['score'].to_i).to eq(3)
-          expect(parsed_response['items'][1]['score'].to_i).to eq(2)
+          expect(parsed_response['items'][0]['raw_score'].to_i).to eq(3)
+          expect(parsed_response['items'][1]['raw_score'].to_i).to eq(2)
         end
       end 
     end

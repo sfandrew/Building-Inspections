@@ -40,13 +40,7 @@ function($scope, $stateParams, $state, inspections, inspection_templates, buildi
   };
 
   $scope.addInspection = function() {
-    inspections.create({
-      inspection: {
-        description: $scope.inspection.description,
-        template_id: $scope.inspection.template_id,
-        unit_id: $scope.inspection.selected_unit.id
-      }
-    })
+    inspections.create($scope.inspection)
     .$promise.then(function(data) {
       $state.go('inspection', {id: data.id});
       //$scope.inspections.push(data);
