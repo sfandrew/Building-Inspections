@@ -8,9 +8,9 @@ class Score
     self.class.name.split("::").last
   end
 
-  def self.create(score_type)
+  def self.create(score_type, initial_value = nil)
     if valid_score_types.include?(score_type)
-      const_get(score_type).new
+      const_get(score_type).new(initial_value)
     else
       raise "Invalid score type: #{score_type}"
     end

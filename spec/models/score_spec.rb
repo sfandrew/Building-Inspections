@@ -6,16 +6,6 @@ RSpec.describe Score, type: :model do
     expect(Score.valid_score_types).to include("PassFail")
   end
 
-  context "when using PassFail score type" do
-    it "initializes the correct score class from the type" do
-      expect(Score.create("PassFail").class.name).to eq("Score::PassFail")
-    end
-
-    it "initializes score to valid value" do
-      expect(Score.create("PassFail").score).to eq(false)
-    end
-  end
-
   context "when using zero to ten score type" do
     it "initializes the correct score class from the type" do
       expect(Score.create("ZeroToTen").class.name).to eq("Score::ZeroToTen")
