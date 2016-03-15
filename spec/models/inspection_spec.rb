@@ -17,6 +17,11 @@ RSpec.describe Inspection, type: :model do
   	expect(FactoryGirl.build(:inspection, template: nil)).not_to be_valid
   end
 
+  it "is invalid when created from a template with no items" do
+    template = FactoryGirl.create(:inspection_template_with_items, items_count: 0)
+    expect(FactoryGirl.build(:inspection, template: template)).not_to be_valid
+  end
+
   it "is valid on update without a template" do
   	inspection = FactoryGirl.create(:inspection)
   	inspection.template = nil

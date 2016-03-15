@@ -49,6 +49,10 @@ function($scope, $stateParams, $state, inspections, inspection_templates, buildi
     $scope.selected_building_id = "";
   };
 
+  $scope.inspectionTemplateHasItems = function(inspection_template) {
+    return inspection_template.items_count > 0;
+  };
+
   $scope.getInspectionTemplates();
   $scope.getBuildings();
   $scope.getInspections();
