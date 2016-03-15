@@ -25,8 +25,14 @@ class Inspection < ActiveRecord::Base
   def create_items_from_template
     return if items.count > 0 # Don't accidentally create the items twice
     template = InspectionTemplate.where(id: @template_id)
-    return if !template.first
-    template.first.items.each do |template_item|
+
+    template = template.first || return
+
+    if (template.items.count < 1)
+      errors.add(:base, "Template has no items!")
+      return
+    end
+    template.items.each do |template_item|
       new_item = Inspection::Item.build_from_template_item(template_item)
       new_item.inspection = self
       self.items << new_item

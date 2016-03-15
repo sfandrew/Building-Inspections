@@ -26,7 +26,7 @@
   <div class="form-group">
     Template: <select ng-model="inspection.template_id">
       <option value="">---</option>
-      <option ng-repeat="inspection_template in inspection_templates" value="{{ inspection_template.id }}">{{ inspection_template.name }}</option>
+      <option ng-repeat="inspection_template in inspection_templates | filter:inspectionTemplateHasItems" value="{{ inspection_template.id }}">{{ inspection_template.name }}</option>
     </select>
   </div>
 
