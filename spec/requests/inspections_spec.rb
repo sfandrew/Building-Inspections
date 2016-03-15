@@ -52,7 +52,8 @@ RSpec.describe "Inspections", :type => :request do
 
       describe "POST #create" do
         it "creates and renders the inspection with its items and items count" do
-          unit = FactoryGirl.create(:unit)
+          building = FactoryGirl.create(:building)
+          unit = FactoryGirl.create(:unit, building: building)
           inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 4)
           inspection_template.items[0].section = "item_0_section"
           inspection_template.save!
@@ -64,6 +65,7 @@ RSpec.describe "Inspections", :type => :request do
                 x[:items_count] = 4
                 x[:template_id] = inspection_template.id
                 x[:unit_id] = unit.id
+                x[:building_id] = building.id
               }
             }
           }.to change(Inspection, :count).by(1)

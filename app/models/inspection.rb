@@ -2,12 +2,14 @@ class Inspection < ActiveRecord::Base
   attr_accessor :template_id
 
   belongs_to :unit
+  belongs_to :building
   has_many :items, -> { order(position: :asc) }, 
     class_name: "Inspection::Item", 
     autosave: true, 
     dependent: :destroy
 
   validates :unit, presence: true
+  validates :building, presence: true
   validates :template_id, presence: true, on: :create
 
   before_validation :create_items_from_template, if: :new_record?

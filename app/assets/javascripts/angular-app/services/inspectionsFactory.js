@@ -7,7 +7,8 @@ function($resource){
       inspection: {
         description: inspection.description,
         template_id: inspection.template_id,
-        unit_id: inspection.selected_unit.id
+        unit_id: inspection.selected_unit.id,
+        building_id: inspection.selected_building.id
       }
     });
   };

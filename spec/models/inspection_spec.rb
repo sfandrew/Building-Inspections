@@ -13,6 +13,10 @@ RSpec.describe Inspection, type: :model do
   	expect(FactoryGirl.build(:inspection, unit: nil)).not_to be_valid
   end
 
+  it "is invalid without a unit" do
+    expect(FactoryGirl.build(:inspection, building: nil)).not_to be_valid
+  end
+
   it "is invalid when created without a template" do
   	expect(FactoryGirl.build(:inspection, template: nil)).not_to be_valid
   end
