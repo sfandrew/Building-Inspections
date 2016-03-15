@@ -4,19 +4,19 @@ This is the repository for the Building Inspections app being developed for SFRE
 
 ### Running Tests ###
 
-* Make sure your DB is setup: 
+Make sure your DB is setup: 
 ```
 #!bash
 
 rake db:migrate RAILS_ENV=test
 ```
-* Run rspec:
+Run rspec:
 ```
 #!bash
 
 rspec
 ```
-* Specific tests:
+Specific tests:
 
 ```
 #!bash
@@ -25,5 +25,3 @@ rspec spec/models                         # By Folder
 rspec spec/models/inspections_spec.rb     # By File
 rspec spec/models/inspections_spec.rb:23  # By line number
 ```
-
-
