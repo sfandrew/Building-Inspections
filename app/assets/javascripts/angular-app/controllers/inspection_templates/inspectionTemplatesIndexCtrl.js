@@ -24,9 +24,9 @@ function($scope, $stateParams, inspection_templates) {
   $scope.addInspectionTemplate = function() {
     inspection_templates.create({
       name: $scope.name,
-    });
+    })
+    .$promise.then($scope.getInspectionTemplates);
     $scope.name = '';
-    $scope.getInspectionTemplates();
   };
 
   $scope.getInspectionTemplates();
