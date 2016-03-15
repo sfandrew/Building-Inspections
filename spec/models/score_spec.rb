@@ -12,7 +12,7 @@ RSpec.describe Score, type: :model do
     end
 
     it "initializes score to valid value" do
-      expect(Score.create("ZeroToTen").score).to eq(0)
+      expect(Score.create("ZeroToTen").score).to eq("0")
     end
   end
 end
