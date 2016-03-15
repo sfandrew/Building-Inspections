@@ -18,4 +18,10 @@
 //= require angular-resource
 //= require angular-ui-router
 //= require angular-rails-templates
-//= require_tree .
+//= require ./angular-app/main
+//= require_tree ./angular-app/controllers
+//= require_tree ./angular-app/directives
+//= require_tree ./angular-app/filters
+//= require_tree ./angular-app/models
+//= require_tree ./angular-app/services
+//= require_tree ./angular-app/templates

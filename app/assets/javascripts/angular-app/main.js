@@ -57,7 +57,7 @@ inspectionApp.config(['$stateProvider', '$urlRouterProvider',
 
   $stateProvider.state('new_unit', {
     url: '/buildings/{id}/units/new',
-    templateUrl: 'buildings/units/_new.html',
+    templateUrl: 'units/_new.html',
     controller: 'UnitNewCtrl'
   });
 

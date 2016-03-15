@@ -37,5 +37,7 @@ module BuildingInspections
         :feature_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+
+    config.angular_templates.ignore_prefix = 'angular-app/templates/'
   end
 end
