@@ -17,6 +17,15 @@ RSpec.describe InspectionTemplate, type: :model do
     expect(FactoryGirl.build(:inspection_template, unit: nil)).to be_valid
   end
 
+  it "has a persisted ordered list of sections" do
+    inspection_template = FactoryGirl.create(:inspection_template)
+    inspection_template.sections = ["first", "second"]
+    inspection_template.sections << "third"
+    inspection_template.save!
+    inspection_template = InspectionTemplate.find(inspection_template.id)
+    expect(inspection_template.sections).to eq(["first", "second", "third"])
+  end
+
   it "gets items in position order" do 
     inspection_template = FactoryGirl.build(:inspection_template)
 

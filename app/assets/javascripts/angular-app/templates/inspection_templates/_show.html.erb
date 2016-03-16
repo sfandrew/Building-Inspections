@@ -6,38 +6,53 @@
 
 <div ng-show="inspection_template">
   <p>Template: {{ inspection_template.name }}</p>
+  <p>Sections: {{ inspection_template.sections }}</p>
 
-  <div ng-repeat="item in inspection_template.items">
+  <form ng-submit="addSection()">
+    <h3>New Section</h3>
 
-    <span class="col-md-12">
-      <span class="col-md-8">{{ item.name }}, Section: {{ item.section }}, Type: {{ item.score_type | scoreDisplay }} </span>
-      <button ng-click="toggleEdit(item)" class="col-md-2">Edit Item</button>
-      <button  ng-click="deleteItem(item)" class="col-md-2">Delete Item</button>
-    </span>
+    <div class="form-group">
+      <label>Section</label>
+      <input type="text" class="form-control" placeholder="Section" ng-model="newSection"></input>
+    </div>
 
-    <span ng-show="item.editing" class="col-md-12">
-      <form ng-submit="toggleEdit(item)">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
-        </div>
+    <button type="submit" class="btn btn-success">Add Section</button>
+  </form>
 
-        <div class="form-group">
-          <label>Section</label>
-          <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
-        </div>
+  <span ng-repeat="section in sections">
+    Section: {{ section }}
+    <div ng-repeat="item in inspection_template.items | filter: {section: section}:true">
 
-        <div class="form-group">
-          <label>Score Type</label>
-          <select class="form-control" ng-model="item.score_type">
-            <option ng-repeat="score_type in validScoreTypes" value="{{ score_type }}">{{ score_type | scoreDisplay}}</option>
-          </select>
-        </div>
-        <button class="col-md-2" type="submit">Save Item</button>
-      </form>
-    </span>
+      <span class="col-md-12">
+        <span class="col-md-8">{{ item.name }}, Type: {{ item.score_type | scoreDisplay }} </span>
+        <button ng-click="toggleEdit(item)" class="col-md-2">Edit Item</button>
+        <button  ng-click="deleteItem(item)" class="col-md-2">Delete Item</button>
+      </span>
 
-  </div>
+      <span ng-show="item.editing" class="col-md-12">
+        <form ng-submit="toggleEdit(item)">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
+          </div>
+
+          <div class="form-group">
+            <label>Section</label>
+            <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
+          </div>
+
+          <div class="form-group">
+            <label>Score Type</label>
+            <select class="form-control" ng-model="item.score_type">
+              <option ng-repeat="score_type in validScoreTypes" value="{{ score_type }}">{{ score_type | scoreDisplay}}</option>
+            </select>
+          </div>
+          <button class="col-md-2" type="submit">Save Item</button>
+        </form>
+      </span>
+
+    </div>
+  </span>
 </div>
 
 
