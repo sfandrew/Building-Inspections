@@ -24,7 +24,12 @@ class Inspection::Item < ActiveRecord::Base
   end
 
   def score
-    @score ||= Score.create(score_type)
+    @score ||= Score.create(score_type, self.raw_score)
+  end
+
+  def score=(new_score)
+    score.set_score new_score
+    self.raw_score = score.raw_score
   end
 
 end

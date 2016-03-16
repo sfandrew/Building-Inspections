@@ -1,7 +1,4 @@
 class Score::PassFail < Score
-
-  attr_reader :raw_score
-
   def initialize(raw_score = nil)
     raw_score.nil? ? set_fail : set_score(raw_score)
   end

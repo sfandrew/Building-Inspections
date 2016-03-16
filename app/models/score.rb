@@ -1,5 +1,7 @@
 class Score
 
+  attr_reader :raw_score
+
   def score
     @raw_score
   end
@@ -18,5 +20,13 @@ class Score
 
   def self.valid_score_types
     ["PassFail", "ZeroToTen"]
+  end
+
+  def set_score(new_score)
+    @raw_score = new_score
+  end
+
+  def get_score
+    @raw_score
   end
 end

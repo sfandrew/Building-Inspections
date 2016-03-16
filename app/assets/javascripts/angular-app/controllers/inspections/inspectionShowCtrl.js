@@ -2,7 +2,9 @@ angular.module('buildingInspections').controller('InspectionShowCtrl', [
   '$scope', 
   '$stateParams', 
   'inspections',
-function($scope, $stateParams, inspections) {
+  'buildings',
+  'units',
+function($scope, $stateParams, inspections, buildings, units) {
 
   $scope.loading = true;
   
@@ -28,6 +30,16 @@ function($scope, $stateParams, inspections) {
 
   $scope.setInspection = function(new_inspection) {
   	$scope.inspection = new_inspection
+
+    buildings.show({id: new_inspection.building_id})
+    .$promise.then(function(data) {
+      $scope.building = data
+    });
+
+    units.show({building_id: new_inspection.building_id, id: new_inspection.unit_id})
+    .$promise.then(function(data) {
+      $scope.unit = data
+    });
   };
 
   $scope.paramsForUpdate = function() {

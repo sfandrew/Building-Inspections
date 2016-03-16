@@ -1,9 +1,9 @@
 <div class="page-header">
   <h1>Inspection</h1>
 </div>
+<p ng-include="'buildings/_basic_info.html'"></p>
+<p ng-include="'units/_basic_info.html'"></p>
 <p>Description: {{ inspection.description }}</p>
-
-
 
 <table class="table table-bordered table-striped">
   <tr>
@@ -22,22 +22,17 @@
 
   </tr>
   <tr ng-repeat="item in inspection.items">
-      <td>
-        {{ item.name }}
-      </td>
+    <td>
+      {{ item.name }}
+    </td>
 
-      <td>
-        {{ item.section }}
-      </td>
+    <td>
+      {{ item.section }}
+    </td>
 
-      <td>
-        {{ item.score_type }}
-        <input ng-show="item.score_type === 'ZeroToTen'" type="text" class="form-control" placeholder="0-10" ng-model="item.score"></input>
-        <select ng-show="item.score_type === 'PassFail'" ng-model="item.score">
-          <option value="pass">Pass</option>
-          <option value="fail">Fail</option>
-        </select>
-      </td>
+    <td ng-include="'inspections/items/' + item.score_type + '.html'">
+
+    </td>
   </tr>
 </table>
 

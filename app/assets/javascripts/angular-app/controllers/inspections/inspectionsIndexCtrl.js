@@ -23,13 +23,7 @@ function($scope, $stateParams, $state, inspections, inspection_templates, buildi
   };
 
   $scope.setSelectedBuilding = function() {
-    for (var i = 0; i < $scope.buildings.length; i++) {
-      if ($scope.buildings[i].id == $scope.selected_building_id) {
-        $scope.selected_building = $scope.buildings[i];
-        $scope.getUnitsForBuilding($scope.selected_building);
-        return;
-      }
-    }
+    $scope.getUnitsForBuilding($scope.inspection.selected_building);
   };
 
   $scope.getUnitsForBuilding = function(building){

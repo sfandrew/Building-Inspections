@@ -28,15 +28,18 @@ RSpec.describe InspectionsController, type: :controller do
       :inspection, 
       ).tap do |x| 
         x[:unit_id] = x[:unit].id
+        x[:building_id] = x[:building].id
         x[:template_id] = x[:template].id
         x[:user_id] = controller.current_user.id
       end
   }
 
   let(:unit) {
-    FactoryGirl.create(:unit, building:
-      FactoryGirl.create(:building, user_id: controller.current_user.id)
-    )
+    FactoryGirl.create(:unit, :building)
+  }
+
+  let(:building) {
+    FactoryGirl.create(:building, user_id: controller.current_user.id)
   }
   
   let(:template) {
