@@ -25,8 +25,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'bootstrap-sass'
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
-
 # Use rails assets pipeline for angular templates
 gem 'angular-rails-templates'
 
