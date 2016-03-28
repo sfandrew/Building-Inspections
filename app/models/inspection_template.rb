@@ -6,4 +6,12 @@ class InspectionTemplate < ActiveRecord::Base
   serialize :sections, Array
 
   validates :name, presence: true
+  validate :sections_are_unique
+
+
+  def sections_are_unique
+  	if sections.uniq.length != sections.length
+  		errors.add(:sections, "are not unique")
+  	end
+  end
 end

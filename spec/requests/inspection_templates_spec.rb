@@ -40,13 +40,14 @@ RSpec.describe "InspectionTemplates", :type => :request do
           inspection_template = FactoryGirl.create(:inspection_template, name: "before")
           put(
             inspection_template_path(inspection_template), 
-            {format: :json, inspection_template: {name: "after"}}
+            {format: :json, inspection_template: {name: "after", sections: ["S5"]}}
           )
 
           expect(response.content_type).to eq("application/json")
           expect(response.status).to be(200)
           parsed_response = JSON.parse(response.body)
           expect(parsed_response['name']).to eq("after")
+          expect(parsed_response['sections']).to eq(["S5"])
         end
 
         it "creates an associated item" do

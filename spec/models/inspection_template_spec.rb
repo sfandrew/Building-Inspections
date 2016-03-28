@@ -17,13 +17,15 @@ RSpec.describe InspectionTemplate, type: :model do
     expect(FactoryGirl.build(:inspection_template, unit: nil)).to be_valid
   end
 
-  it "has a persisted ordered list of sections" do
+  it "has a persisted ordered list of unique sections" do
     inspection_template = FactoryGirl.create(:inspection_template)
     inspection_template.sections = ["first", "second"]
     inspection_template.sections << "third"
     inspection_template.save!
     inspection_template = InspectionTemplate.find(inspection_template.id)
     expect(inspection_template.sections).to eq(["first", "second", "third"])
+    inspection_template.sections << "third"
+    expect(inspection_template).not_to be_valid
   end
 
   it "gets items in position order" do 
