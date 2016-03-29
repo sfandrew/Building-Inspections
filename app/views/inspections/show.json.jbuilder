@@ -1,4 +1,4 @@
-json.(@inspection, :id, :description, :building_id, :unit_id, :created_at, :updated_at)
+json.(@inspection, :id, :description, :building_id, :unit_id, :created_at, :updated_at, :sections)
 json.items_count @inspection.items.count
 json.items do
   json.array!(@inspection.items) do |item|

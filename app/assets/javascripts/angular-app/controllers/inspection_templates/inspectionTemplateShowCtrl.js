@@ -110,7 +110,7 @@ function($scope, $stateParams, inspection_templates, scores) {
   $scope.updateInspectionTemplateSections = function() {
     inspection_templates.update({id: $scope.inspection_template.id}, 
       {sections: $scope.inspection_template.sections})
-      .$promise(function(data) {
+      .$promise.then(function(data) {
         $scope.inspection_template = data;
       });
   };
