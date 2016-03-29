@@ -73,9 +73,55 @@ function($scope, $stateParams, inspection_templates, scores) {
 
   $scope.addSection = function() {
     $scope.inspection_template.sections.push($scope.newSection);
-    inspection_templates.update({id: $scope.inspection_template.id}, 
-      {sections: $scope.inspection_template.sections});
+    $scope.updateInspectionTemplateSections();
     $scope.newSection = "";
+  };
+
+  $scope.deleteSection = function(section) {
+    var i = $scope.inspection_template.sections.indexOf(section);
+    if (i >= 0) {
+      $scope.inspection_template.sections.splice(i, 1);
+      $scope.updateInspectionTemplateSections();
+    }
+  };
+
+  $scope.moveSectionUp = function(section) {
+    var i = $scope.inspection_template.sections.indexOf(section)
+    if (i > 0) {
+      var tmp = $scope.inspection_template.sections[i];
+      $scope.inspection_template.sections[i] = $scope.inspection_template.sections[i-1];
+      $scope.inspection_template.sections[i-1] = tmp;
+      $scope.updateInspectionTemplateSections();
+      return;
+    }
+  };
+
+  $scope.moveSectionDown = function(section) {
+    var i = $scope.inspection_template.sections.indexOf(section)
+    if (i >= 0 && i < ($scope.inspection_template.sections.length - 1)) {
+      var tmp = $scope.inspection_template.sections[i];
+      $scope.inspection_template.sections[i] = $scope.inspection_template.sections[i+1];
+      $scope.inspection_template.sections[i+1] = tmp;
+      $scope.updateInspectionTemplateSections();
+      return;
+    }
+  };
+
+  $scope.updateInspectionTemplateSections = function() {
+    inspection_templates.update({id: $scope.inspection_template.id}, 
+      {sections: $scope.inspection_template.sections})
+      .$promise(function(data) {
+        $scope.inspection_template = data;
+      });
+  };
+
+  $scope.itemSectionNotInSections = function(item) {
+    for (var i = 0; i < $scope.inspection_template.sections.length; i++) {
+      if (item.section == $scope.inspection_template.sections[i]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   //$scope.$watchCollection('inspection_template.items', $scope.generateItemSections);

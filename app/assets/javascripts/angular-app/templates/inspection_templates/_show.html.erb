@@ -9,24 +9,33 @@
   <p>Sections: {{ inspection_template.sections }}</p>
 
   <form ng-submit="addSection()">
-    <h3>New Section</h3>
-
-    <div class="form-group">
-      <label>Section</label>
+    <div class="form-group form-inline">
+      <label>New Section</label>
       <input type="text" class="form-control" placeholder="Section" ng-model="newSection"></input>
+      <button ng-disabled="!newSection" type="submit" class="btn btn-success">Add</button>
     </div>
 
-    <button type="submit" class="btn btn-success">Add Section</button>
   </form>
 
-  <span ng-repeat="section in inspection_template.sections">
-    <div>Section: {{ section }}</div>
-    <div ng-repeat="item in inspection_template.items | filter: {section: section}:true">
-    <div ng-include="'inspection_templates/items/_show.html'"></div>
-      
+  <ul>
+    <li ng-repeat="section in inspection_template.sections">
+      <span>Section: {{ section }} 
+        <button ng-click="moveSectionUp(section)" class="btn btn-primary">Move Up</button>
+        <button ng-click="moveSectionDown(section)" class="btn btn-primary">Move Down</button>
+        <button ng-click="deleteSection(section)" class="btn btn-danger">Delete Section</button>
+      </span>
+      <ul>
+        <li ng-include="'inspection_templates/items/_show.html'" ng-repeat="item in inspection_template.items | filter: {section: section}:true"></li>
+      </ul>
+    </li>
 
-    </div>
-  </span>
+    <li ng-show="(inspection_template.items | filter:itemSectionNotInSections).length > 0">No Section</li>
+    <ul>
+      <li ng-include="'inspection_templates/items/_show.html'" 
+        ng-repeat="item in inspection_template.items | filter:itemSectionNotInSections"></li>
+    </ul>
+  </ul>
+
 </div>
 
 
