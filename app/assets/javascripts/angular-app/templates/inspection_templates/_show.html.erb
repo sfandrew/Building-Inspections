@@ -49,7 +49,9 @@
 
   <div class="form-group">
     <label>Section</label>
-    <input type="text" class="form-control" placeholder="Section" ng-model="newItem.section"></input>
+    <select class="form-control" ng-model="newItem.section">
+      <option ng-repeat="item_section in inspection_template.sections" value="{{ item_section }}">{{ item_section }}</option>
+    </select>
   </div>
 
   <div class="form-group">
