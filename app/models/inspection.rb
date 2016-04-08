@@ -8,11 +8,14 @@ class Inspection < ActiveRecord::Base
     autosave: true, 
     dependent: :destroy
 
+  serialize :sections, Array
+
   validates :unit, presence: true
   validates :building, presence: true
   validates :template_id, presence: true, on: :create
+  validate :sections_are_unique
 
-  before_validation :create_items_from_template, if: :new_record?
+  before_validation :build_inspection_and_items_from_template, if: :new_record?
 
   accepts_nested_attributes_for :items
 
@@ -24,11 +27,14 @@ class Inspection < ActiveRecord::Base
     @template_id = template_id
   end
 
-  def create_items_from_template
-    return if items.count > 0 # Don't accidentally create the items twice
+  def build_inspection_and_items_from_template
     template = InspectionTemplate.where(id: @template_id)
 
     template = template.first || return
+
+    self.sections = template.sections
+
+    return if items.count > 0 # Don't accidentally create the items twice
 
     if (template.items.count < 1)
       errors.add(:base, "Template has no items!")
@@ -40,5 +46,12 @@ class Inspection < ActiveRecord::Base
       self.items << new_item
     end
   end
+
+  def sections_are_unique
+    if sections.uniq.length != sections.length
+      errors.add(:sections, "are not unique")
+    end
+  end
+
 
 end

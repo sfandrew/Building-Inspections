@@ -3,10 +3,10 @@ angular.module('buildingInspections').factory('inspection_templates', [
 function($resource){
 
   var paramsForUpdate = function(inspection_template) {
-    console.log(inspection_template);
     return angular.toJson({
       inspection_template: {
         name: inspection_template.name,
+        sections: inspection_template.sections,
         items_attributes: inspection_template.items
       }
     })

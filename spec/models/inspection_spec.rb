@@ -32,6 +32,17 @@ RSpec.describe Inspection, type: :model do
   	expect(inspection).to be_valid
   end
 
+  it "has a persisted ordered list of unique sections" do
+    inspection = FactoryGirl.create(:inspection)
+    inspection.sections = ["first", "second"]
+    inspection.sections << "third"
+    inspection.save!
+    inspection = Inspection.find(inspection.id)
+    expect(inspection.sections).to eq(["first", "second", "third"])
+    inspection.sections << "third"
+    expect(inspection).not_to be_valid
+  end
+
   it "gets its items in position order" do
     inspection = FactoryGirl.build(:inspection_with_items, items_count: 5)
 
@@ -42,7 +53,6 @@ RSpec.describe Inspection, type: :model do
     positions = inspection.items.pluck(:position)
     expect(positions).to eq(positions.sort)
   end
-
 
   describe "when creating from a template which has items" do
     let (:template) {
@@ -60,6 +70,13 @@ RSpec.describe Inspection, type: :model do
       inspection.items.each_with_index do |inspection_item, index|
         expect(inspection_item.matches_template_item?(template.items[index])).to be true
       end
+    end
+
+    it "has ordered sections which match the template" do
+      template.sections = ["S1", "S2"]
+      template.save!
+
+      expect(inspection.sections).to eq(["S1", "S2"])
     end
   end
 

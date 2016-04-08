@@ -6,38 +6,36 @@
 
 <div ng-show="inspection_template">
   <p>Template: {{ inspection_template.name }}</p>
+  <p>Sections: {{ inspection_template.sections }}</p>
 
-  <div ng-repeat="item in inspection_template.items">
+  <form ng-submit="addSection()">
+    <div class="form-group form-inline">
+      <label>New Section</label>
+      <input type="text" class="form-control" placeholder="Section" ng-model="newSection"></input>
+      <button ng-disabled="!newSection" type="submit" class="btn btn-success">Add</button>
+    </div>
 
-    <span class="col-md-12">
-      <span class="col-md-8">{{ item.name }}, Section: {{ item.section }}, Type: {{ item.score_type | scoreDisplay }} </span>
-      <button ng-click="toggleEdit(item)" class="col-md-2">Edit Item</button>
-      <button  ng-click="deleteItem(item)" class="col-md-2">Delete Item</button>
-    </span>
+  </form>
 
-    <span ng-show="item.editing" class="col-md-12">
-      <form ng-submit="toggleEdit(item)">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" class="form-control" placeholder="Name" ng-model="item.name"></input>
-        </div>
+  <ul>
+    <li ng-repeat="section in inspection_template.sections">
+      <span>Section: {{ section }} 
+        <button ng-click="moveSectionUp(section)" class="btn btn-primary">Move Up</button>
+        <button ng-click="moveSectionDown(section)" class="btn btn-primary">Move Down</button>
+        <button ng-click="deleteSection(section)" class="btn btn-danger">Delete Section</button>
+      </span>
+      <ul>
+        <li ng-include="'inspection_templates/items/_show.html'" ng-repeat="item in inspection_template.items | filter: {section: section}:true"></li>
+      </ul>
+    </li>
 
-        <div class="form-group">
-          <label>Section</label>
-          <input type="text" class="form-control" placeholder="Section" ng-model="item.section"></input>
-        </div>
+    <li ng-show="(inspection_template.items | filter:itemSectionNotInSections).length > 0">No Section</li>
+    <ul>
+      <li ng-include="'inspection_templates/items/_show.html'" 
+        ng-repeat="item in inspection_template.items | filter:itemSectionNotInSections"></li>
+    </ul>
+  </ul>
 
-        <div class="form-group">
-          <label>Score Type</label>
-          <select class="form-control" ng-model="item.score_type">
-            <option ng-repeat="score_type in validScoreTypes" value="{{ score_type }}">{{ score_type | scoreDisplay}}</option>
-          </select>
-        </div>
-        <button class="col-md-2" type="submit">Save Item</button>
-      </form>
-    </span>
-
-  </div>
 </div>
 
 
@@ -51,7 +49,9 @@
 
   <div class="form-group">
     <label>Section</label>
-    <input type="text" class="form-control" placeholder="Section" ng-model="newItem.section"></input>
+    <select class="form-control" ng-model="newItem.section">
+      <option ng-repeat="item_section in inspection_template.sections" value="{{ item_section }}">{{ item_section }}</option>
+    </select>
   </div>
 
   <div class="form-group">
