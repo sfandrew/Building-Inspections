@@ -5,6 +5,7 @@ angular.module('buildingInspections').controller('BuildingsIndexCtrl', [
 function($scope, $stateParams, buildings) {
 
   $scope.loading = true;
+  $scope.pageClass = 'listing-buildings';
 
   $scope.building = {};
   

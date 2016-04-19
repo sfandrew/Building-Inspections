@@ -1,36 +1,43 @@
-<h1>Listing Inspection Templates</h1>
+<div class="{{ pageClass }}" ng-view>
+  <h1>Listing Inspection Templates</h1>
 
-<loading-indicator loading="loading"></loading-indicator>
-<error-indicator error="error"></error-indicator>
+  <loading-indicator loading="loading"></loading-indicator>
+  <error-indicator error="error"></error-indicator>
 
-<table class="table" ng-show="inspection_templates">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Name</th>
-      <th>Items</th>
-    </tr>
-  </thead>
+  <table class="table" ng-show="inspection_templates">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Items</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <tr ng-repeat="inspection_template in inspection_templates">
-      <td><a href="#/inspection_templates/{{ inspection_template.id }}">View</a></td>
-      <td>{{ inspection_template.name }}</td>
-      <td>
-        {{ inspection_template.items_count }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <tbody>
+      <tr ng-repeat="inspection_template in inspection_templates">
+        <td><a href="#/inspection_templates/{{ inspection_template.id }}">View</a></td>
+        <td>{{ inspection_template.name }}</td>
+        <td>
+          {{ inspection_template.items_count }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
 
 
-<form ng-submit="addInspectionTemplate()">
-  <h3>New Inspection Template</h3>
 
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Name" ng-model="name"></input>
-  </div>
 
-  <button type="submit">Add Template</button>
-</form>
+
+
+  <form ng-submit="addInspectionTemplate()">
+    <h3>New Inspection Template</h3>
+
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Name" ng-model="name"></input>
+    </div>
+
+    <button type="submit">Add Template</button>
+  </form>
+
+</div>
