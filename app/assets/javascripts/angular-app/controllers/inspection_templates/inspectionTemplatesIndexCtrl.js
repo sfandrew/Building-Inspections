@@ -4,6 +4,7 @@ angular.module('buildingInspections').controller('InspectionTemplatesIndexCtrl',
   'inspection_templates',
 function($scope, $stateParams, inspection_templates) {
   $scope.loading = true;
+  $scope.pageClass = 'list-inspection-templates',
 
   $scope.getInspectionTemplates = function() {
     inspection_templates.index()

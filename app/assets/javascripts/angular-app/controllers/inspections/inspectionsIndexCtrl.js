@@ -9,6 +9,7 @@ angular.module('buildingInspections').controller('InspectionsIndexCtrl', [
 function($scope, $stateParams, $state, inspections, inspection_templates, buildings, units) {
   
   $scope.inspection = {}
+  $scope.pageClass = 'list-inspections';
 
   $scope.getInspectionTemplates = function() {
     $scope.inspection_templates = inspection_templates.index();

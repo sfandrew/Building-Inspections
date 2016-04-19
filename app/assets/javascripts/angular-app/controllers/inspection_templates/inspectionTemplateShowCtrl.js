@@ -8,6 +8,7 @@ function($scope, $stateParams, inspection_templates, scores) {
   $scope.validScoreTypes = scores.validScoreTypes;
   $scope.newItem = {};
   $scope.newSection = "";
+  $scope.pageClass = 'show-inspection-template';
 
   $scope.getInspectionTemplate = function() {
     inspection_templates.show({id: $stateParams.id})
@@ -16,7 +17,7 @@ function($scope, $stateParams, inspection_templates, scores) {
         $scope.inspection_template = data;
         $scope.generateItemSections();
       }).finally(function() {
-        $scope.loading = false;
+        $scope.loading = true;
       });
 
   };
