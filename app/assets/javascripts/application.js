@@ -24,3 +24,7 @@
 //= require_tree ./angular-app/filters
 //= require_tree ./angular-app/services
 //= require_tree ./angular-app/templates
+
+$(document).ready(function(){
+	$('.alert-info .alert-success').fadeOut(3000);
+});
