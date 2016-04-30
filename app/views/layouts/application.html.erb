@@ -5,22 +5,30 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
 <body ng-app="buildingInspections">
   <div class="container">
-    <nav class="navbar navbar-default"><%= render 'layouts/nav' %></nav>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <% flash.each do |name, msg| %>
-            <%= content_tag :div, msg, id: "flash_#{name}", role: "alert", class: "alert alert-info" %>
-          <% end %>
-          <%= yield %>
-        </div>
-      </div>
-
+    <% flash.each do |name, msg| %>
+      <%= content_tag(:div, class: "alert alert-#{name} #{flash_class(name)}") do%>
+        <%=msg%>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <% end %>
+    <% end %>
   </div>
+  <% if user_signed_in? %>
+    <%= render 'layouts/nav' %>
+    <div class="container">
+      <div class="col-md-6 col-md-offset-3">
+        <%= yield %>
+      </div>
+    </div>
+  <% else %>
+    <%= render 'layouts/home_page' %>
+    <%= yield %>
+  <% end %>
 </body>
 </html>

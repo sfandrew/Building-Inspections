@@ -15,6 +15,11 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 
+  def menu_items
+    if user_signed_in?
+    end
+  end
+
   protected
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
