@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name
   before_save :assign_role
 
+  has_many :inspection_templates
   has_many :inspections
   has_many :buildings
 

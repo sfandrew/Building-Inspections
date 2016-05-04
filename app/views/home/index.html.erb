@@ -1,6 +1,6 @@
 <div ui-view>
 	<% if user_signed_in? %>
-		<i class="fa fa-camera-retro fa-5x"></i>
+		<%= render partial: 'building_map' %>
 	<% else %>
 		<div class="container-fluid">
 			<div class="row home-page-title">

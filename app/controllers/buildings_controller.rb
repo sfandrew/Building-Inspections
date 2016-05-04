@@ -28,7 +28,6 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
     @building = Building.new(building_params)
-
     @building.user = current_user
 
     respond_to do |format|
@@ -74,6 +73,6 @@ class BuildingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def building_params
-      params.require(:building).permit(:name, :address_line_1, :address_line_2, :city, :state, :zip)
+      params.require(:building).permit(:name, :address_line_1, :address_line_2, :city, :state, :zip, :latitude, :longitude)
     end
 end

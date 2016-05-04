@@ -31,6 +31,10 @@ gem 'angular-rails-templates'
 # Used for controller-level json responses
 gem 'responders'
 
+#Used for Geocoding addresses
+gem 'geocoder'
+#Used for debugging
+gem 'pry'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

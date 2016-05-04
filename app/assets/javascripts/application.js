@@ -26,5 +26,5 @@
 //= require_tree ./angular-app/templates
 
 $(document).ready(function(){
-	$('.alert-info .alert-success').fadeOut(3000);
+	$('.alert-info, .alert-success').fadeOut(3800);
 });

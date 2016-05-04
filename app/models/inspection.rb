@@ -1,8 +1,10 @@
 class Inspection < ActiveRecord::Base
   attr_accessor :template_id
+  scope :recent_inspections, ->(current_user) { where(user: current_user).last(5) }
 
   belongs_to :unit
   belongs_to :building
+  belongs_to :user
   has_many :items, -> { order(position: :asc) }, 
     class_name: "Inspection::Item", 
     autosave: true, 

@@ -24,7 +24,15 @@ RSpec.describe InspectionTemplatesController, type: :controller do
   # InspectionTemplate. As you add validations to InspectionTemplate, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    FactoryGirl.attributes_for(:inspection_template)
+    FactoryGirl.attributes_for(:inspection_template, user_id: controller.current_user.id)
+  }
+
+  let(:valid_attributes_wrong_user){
+    FactoryGirl.attributes_for(:inspection_template, user_id: wrong_user.id)
+  }
+
+  let(:wrong_user){
+    FactoryGirl.create(:user)
   }
 
   # let(:invalid_attributes) {
@@ -37,8 +45,9 @@ RSpec.describe InspectionTemplatesController, type: :controller do
     end
     
     describe "GET #index" do
-      it "assigns all inspection_templates as @inspection_templates" do
+      it "assigns logged in user's inspection_templates as @inspection_templates" do
         inspection_template = InspectionTemplate.create! valid_attributes
+        wrong_inspection_template = InspectionTemplate.create! valid_attributes_wrong_user
         get :index, {}
         expect(assigns(:inspection_templates)).to eq([inspection_template])
       end
@@ -49,6 +58,12 @@ RSpec.describe InspectionTemplatesController, type: :controller do
         inspection_template = InspectionTemplate.create! valid_attributes
         get :show, {:id => inspection_template.to_param}
         expect(assigns(:inspection_template)).to eq(inspection_template)
+      end
+
+      it "redirects the user if the inspection template does belong to the current user" do
+        wrong_inspection_template = InspectionTemplate.create! valid_attributes_wrong_user
+        get :show, {:id => wrong_inspection_template.to_param}
+        expect(response.status).to be(302)
       end
     end
 
@@ -64,6 +79,12 @@ RSpec.describe InspectionTemplatesController, type: :controller do
         inspection_template = InspectionTemplate.create! valid_attributes
         get :edit, {:id => inspection_template.to_param}
         expect(assigns(:inspection_template)).to eq(inspection_template)
+      end
+
+      it "redirects the user if the inspection template does not belong to the current user" do
+        wrong_inspection_template = InspectionTemplate.create! valid_attributes_wrong_user
+        get :edit, {:id => wrong_inspection_template.to_param}
+        expect(response.status).to be(302)
       end
     end
 
@@ -123,6 +144,16 @@ RSpec.describe InspectionTemplatesController, type: :controller do
           inspection_template = InspectionTemplate.create! valid_attributes
           put :update, {:id => inspection_template.to_param, :inspection_template => valid_attributes}
           expect(response).to redirect_to(inspection_template)
+        end
+
+        context "when editing an unpermitted inspection template" do
+          it "redirects and doesn't update" do
+            wrong_inspection_template = InspectionTemplate.create! valid_attributes_wrong_user
+            put :update, {:id => wrong_inspection_template.to_param, :inspection_template => new_attributes}
+            wrong_inspection_template.reload
+            expect(response.status).to be(302)
+            expect(wrong_inspection_template.name).not_to eq("after_update")
+          end
         end
       end
 
