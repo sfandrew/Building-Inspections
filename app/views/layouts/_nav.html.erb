@@ -7,6 +7,11 @@
               <a href="#"><i class="fa fa-wpforms fa-lg"></i> Inspections<span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="inspection">
+              <% unless @recent_inspections.empty? %>
+                <% @recent_inspections.each do |inspection| %>
+                  <li><%= link_to "Inspection #{inspection.id}", '#' +inspection_path(inspection) %></li>
+                <% end %>
+              <% end %>
               <li><%= link_to "Create New Inspection", '#' + inspections_path %></li>
               <li><%= link_to "View More Inspections", '#' + inspections_path %></li>
             </ul>
@@ -14,6 +19,11 @@
               <a href="#"><i class="fa fa-newspaper-o fa-lg"></i> Inspection Template <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="inspection-template">
+              <% unless @recent_inspection_templates.empty? %>
+                <% @recent_inspection_templates.each do |inspT| %>
+                  <li><%= link_to inspT.name, '#' + inspection_template_path(inspT) %></li>
+                <% end %>
+              <% end %>
               <li><%= link_to "Create a new Inspection Template", '#' + inspection_templates_path %></li>
               <li><%= link_to "View your Inspection Templates", '#' + inspection_templates_path %></li>
             </ul>
@@ -21,6 +31,11 @@
               <a href="#"><i class="fa fa-building-o fa-lg"></i> Buildings <span class="arrow"></span></a>
             </li>  
             <ul class="sub-menu collapse" id="building">
+              <% unless @recent_buildings.empty? %>
+                <% @recent_buildings.each do |building| %>
+                  <li><%= link_to building.name, '#' + building_path(building) %></li>
+                <% end %>
+              <% end %>
               <li><%= link_to "Create a new Building", "#" + buildings_path %></li>
               <li><%= link_to "View your Buildings", "#" + buildings_path %></li>
             </ul>
@@ -29,7 +44,6 @@
               <i class="fa fa-users fa-lg"></i> Users
               </a>
             </li>
-
             <li data-toggle="collapse" data-target="#profile" class="collapsed">
               <a href="#"><i class="fa fa-user fa-lg"></i> Profile <span class="arrow"></span></a>
             </li>
@@ -37,8 +51,6 @@
               <li><%= link_to "Edit profile", edit_user_registration_path %></li>
               <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
             </ul>
-
-               
           </ul>
      </div>
 </div>

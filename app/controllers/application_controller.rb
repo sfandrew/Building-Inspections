@@ -17,6 +17,9 @@ class ApplicationController < ActionController::Base
 
   def menu_items
     if user_signed_in?
+      @recent_buildings = Building.recent_buildings(current_user)
+      @recent_inspections = Inspection.recent_inspections(current_user)
+      @recent_inspection_templates = InspectionTemplate.recent_inspection_templates(current_user)
     end
   end
 

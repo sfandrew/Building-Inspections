@@ -9,7 +9,7 @@ class InspectionTemplatesController < ApplicationController
   # GET /inspection_templates
   # GET /inspection_templates.json
   def index
-    @inspection_templates = InspectionTemplate.all
+    @inspection_templates = InspectionTemplate.where(user: current_user)
     respond_with @inspection_templates
   end
 
@@ -31,6 +31,7 @@ class InspectionTemplatesController < ApplicationController
   # POST /inspection_templates.json
   def create
     @inspection_template = InspectionTemplate.new(inspection_template_params)
+    @inspection_template.user = current_user
 
     respond_to do |format|
       if @inspection_template.save

@@ -8,7 +8,7 @@ class Ability
     else
       can :manage, Building, user_id: user.id
       can :manage, Unit, building: { user_id: user.id }
-      can :manage, InspectionTemplate
+      can :manage, InspectionTemplate, user_id: user.id
       can :manage, Inspection, user_id: user.id
 
     end
