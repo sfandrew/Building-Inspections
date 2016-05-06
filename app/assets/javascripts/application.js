@@ -20,11 +20,12 @@
 //= require angular-ui-router
 //= require angular-rails-templates
 //= require ./angular-app/main
+//= require ngmap/build/scripts/ng-map.min.js
 //= require_tree ./angular-app/controllers
 //= require_tree ./angular-app/filters
 //= require_tree ./angular-app/services
 //= require_tree ./angular-app/templates
 
 $(document).ready(function(){
-	$('.alert-info, .alert-success').fadeOut(3800);
+	$('.alert-info, .alert-success').fadeOut(5000);
 });
