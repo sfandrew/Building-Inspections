@@ -1,4 +1,4 @@
-var inspectionApp = angular.module('buildingInspections', ['templates', 'ui.router', 'ngResource', 'ngAnimate']);
+var inspectionApp = angular.module('buildingInspections', ['templates', 'ui.router', 'ngResource', 'ngAnimate', 'ngMap']);
 
 inspectionApp.config(['$stateProvider', '$urlRouterProvider', 
   function($stateProvider, $urlRouterProvider) {

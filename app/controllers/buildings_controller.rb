@@ -36,7 +36,7 @@ class BuildingsController < ApplicationController
         format.json { render :show, status: :created, location: @building }
       else
         format.html { render :new }
-        format.json { render json: @building.errors, status: :unprocessable_entity }
+        format.json { render :json => { :error =>  @building.errors.full_messages }, :status => 422 }
       end
     end
   end

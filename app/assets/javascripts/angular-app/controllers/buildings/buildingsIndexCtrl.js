@@ -34,6 +34,17 @@ function($scope, $stateParams, buildings) {
       $scope.building
     ).$promise.then(function(data){ 
       $scope.buildings.push(data);
+    }, function(data){
+      if(data.data.error.length){
+        $('.alert-danger').remove();
+        $errorDiv = $('<div><a class="close" data-dismiss="alert" aria-label="close">&times;</a></div>').addClass('alert alert-danger');
+        var errors = data.data.error;
+        $.each(errors, function(index,value){
+          $errorDiv.append('<li>' + value+ '</li>');
+        });
+
+        $('.error-messages').append($errorDiv)
+      }
     });
     $scope.building = {};
     //$scope.getBuildings();

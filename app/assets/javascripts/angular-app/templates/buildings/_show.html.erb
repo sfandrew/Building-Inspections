@@ -1,16 +1,20 @@
-<div class="page-header">
-  <h1>Building Detail</h1>
+<div class="col-md-4">
+	<h1>Building Detail</h1>
+	<address>
+		<strong>{{ building.name }}</strong><br>
+		{{ building.address_line_1 }}<br>
+		{{ building.zip }}<br>
+		{{ building.state }}<br>
+		<p><strong>Units:</strong>
+		  <ul>
+		    <li ng-repeat="unit in building.units">{{ unit.unit_number }}</li>
+		  </ul>
+		</p>
+	</address>
+	<a href="#/buildings/{{ building.id }}/units/new" class="btn btn-success  btn-block">ADD NEW UNIT</a>
 </div>
-<p>Name: {{ building.name }}</p>
-<p>Address: {{ building.address_line_1 }}</p>
-<p>Zip: {{ building.zip }}</p>
-<p>City: {{ building.city }}</p>
-<p>State: {{ building.state }}</p>
-<p>Units:
-  <ul>
-    <li ng-repeat="unit in building.units">
-      Unit Number: {{ unit.unit_number }}
-    </li>
-  </ul>
-</p>
-<a href="#/buildings/{{ building.id }}/units/new" class="btn btn-success">New Unit</a>
+<div class="col-md-8">
+	<ng-map ng-if="building.latitude" center="[ {{ building.latitude }}, {{ building.longitude }}]" zoom="14">
+		<marker position="{{ building.latitude }}, {{ building.longitude }}"></marker>
+	</ng-map>
+</div>
