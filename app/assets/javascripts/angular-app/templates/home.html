@@ -12,7 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="building in buildings" ng-click="showInfoWindow(event, building)">
+				<tr ng-repeat="building in buildings" ng-if="building.latitude" ng-click="showInfoWindow(event, building)">
 					<td width="5%"><a href="#/buildings/{{ building.id }}" class="btn btn-success btn-sm">View</a></td>
 					<td>{{building.name}}</td>
 					<td>

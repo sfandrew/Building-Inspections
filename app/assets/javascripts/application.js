@@ -21,6 +21,7 @@
 //= require angular-rails-templates
 //= require ./angular-app/main
 //= require ngmap/build/scripts/ng-map.min.js
+//= require ng-table/dist/ng-table.min.js
 //= require_tree ./angular-app/controllers
 //= require_tree ./angular-app/filters
 //= require_tree ./angular-app/services
