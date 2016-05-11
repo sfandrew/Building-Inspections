@@ -17,13 +17,14 @@
 
     <tbody>
       <tr ng-repeat="building in buildings">
-        <td><a href="#/buildings/{{ building.id }}" class="btn btn-success btn-sm">View</a></td>
+        <td width="5%"><a href="#/buildings/{{ building.id }}" class="btn btn-success btn-sm">View</a></td>
         <td>{{ building.name }}</td>
         <td>
           {{ building.units_count }}
         </td>
         <td>
-          <button ng-click="destroyBuilding(building)">Delete</button>
+          <button class="btn btn-info">Edit</button>
+          <button class="btn btn-danger" ng-click="destroyBuilding(building)">Delete</button>
         </td>
       </tr>
     </tbody>
@@ -31,29 +32,47 @@
 
   </div>
 
-  <form ng-submit="addBuilding()">
-    <h3>New Building</h3>
+  <div class="well">
+    <form ng-submit="addBuilding()" class="form-horizontal">
+      <legend><h2>Add New Building</h2></legend>
 
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Name" ng-model="building.name"></input>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Building Name:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="building.name" required></input>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Address" ng-model="building.address_line_1"></input>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Building Address:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="building.address_line_1" required></input>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Zip" ng-model="building.zip"></input>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Building ZipCode:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="building.zip" required></input>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="City" ng-model="building.city"></input>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Building City:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="building.city" required></input>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="State" ng-model="building.state"></input>
-    </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Building State:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" ng-model="building.state" required></input>
+        </div>
+      </div>
 
-    <button type="submit">Add Building</button>
-  </form>
+      <button class="btn btn-success btn-block btn-lg" type="submit">Add Building</button>
+      
+    </form>
+  </div>
 </div>

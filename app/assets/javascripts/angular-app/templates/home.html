@@ -1,0 +1,39 @@
+<div ng-controller="homeCtrl">
+	<h1>Your Buildings</h1>
+	<div class="col-sm-4">
+		
+		<table class="table table-hover table-condensed">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Name</th>
+					<th>Address</th>
+					<th>Units</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="building in buildings" ng-click="showInfoWindow(event, building)">
+					<td width="5%"><a href="#/buildings/{{ building.id }}" class="btn btn-success btn-sm">View</a></td>
+					<td>{{building.name}}</td>
+					<td>
+						<address>
+							{{ building.address_line_1 }}
+							{{ building.address_line_2 }} 
+							{{ building.zip }}<br>
+							{{ building.state }}<br>
+						</address>
+					</td>
+					<td> {{building.units_count }} </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="col-sm-8">
+		<ng-map zoom="4" center="[37.5591399,-95.6927916]"  default-style="false">
+			<marker ng-if="building.latitude"  id="{{building.id}}" ng-repeat="building in buildings" 
+				position="{{ building.latitude }}, {{ building.longitude }}" on-click="showInfoWindow(event, building)">
+			</marker>
+		</ng-map>
+	</div>
+</div>
+

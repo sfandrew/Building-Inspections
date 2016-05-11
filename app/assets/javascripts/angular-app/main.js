@@ -9,7 +9,7 @@ inspectionApp.config(['$stateProvider', '$urlRouterProvider',
     url: "/home",
     views: {
       "@": {
-        controller: 'HomeCtrl',
+        controller: 'homeCtrl',
         templateUrl: 'home.html',
       }
     }

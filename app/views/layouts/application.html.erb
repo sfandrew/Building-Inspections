@@ -11,25 +11,36 @@
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
 </head>
-<body ng-app="buildingInspections">
-  <div class="container error-messages">
-    <% flash.each do |name, msg| %>
-      <%= content_tag(:div, class: "alert alert-#{name} #{flash_class(name)}") do%>
-        <%=msg%>
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
+
+<% if user_signed_in? %>
+  <body ng-app="buildingInspections">
+    <div class="container error-messages">
+      <% flash.each do |name, msg| %>
+        <%= content_tag(:div, class: "alert alert-#{name} #{flash_class(name)}") do%>
+          <%=msg%>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
-  <% if user_signed_in? %>
+    </div>
     <%= render 'layouts/nav' %>
     <div class="container">
       <div class="col-md-9 col-md-offset-2">
         <%= yield %>
       </div>
     </div>
-  <% else %>
+  </body>
+<% else %>
+  <body>
+    <div class="container error-messages">
+      <% flash.each do |name, msg| %>
+        <%= content_tag(:div, class: "alert alert-#{name} #{flash_class(name)}") do%>
+          <%=msg%>
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <% end %>
+      <% end %>
+    </div>
     <%= render 'layouts/home_page' %>
     <%= yield %>
-  <% end %>
-</body>
+  </body>
+<% end %>
 </html>
