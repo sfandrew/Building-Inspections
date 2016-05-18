@@ -1,89 +1,78 @@
 <div class="{{ pageClass }}" ng-view>
-
-<loading-indicator loading="loading"></loading-indicator>
-<div class="small-spacer"></div>
-
-  <div ng-show="inspection_template" class="col-sm-8">
-
-    <div class="well">
-      <div class="page-header">
-        <h1>Template: {{ inspection_template.name }}</h1>
-      </div>
-      <ul class="list-group">
-        
-        <li class="list-group-item" ng-repeat="section in inspection_template.sections">
-          <div class="row">
-            <div class="col-sm-4">
-              <span><b>Section: {{ section | uppercase }}</b>
-            </div>
-            <div class="col-sm-8">
-              <button ng-click="moveSectionUp(section)" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i> Move Up</button>
-              <button ng-click="moveSectionDown(section)" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i> Move Down</button>
-              <button ng-click="deleteSection(section)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete Section</button>
-              </span>
-            </div>
-          </div>
-          <div class="small-spacer"></div>
-          
-          <ul class="no-bullets">
-            <li ng-include="'inspection_templates/items/_show.html'" ng-repeat="item in inspection_template.items | filter: {section: section}:true"></li>  
-          </ul>
-          
-        </li>
-        <li ng-show="(inspection_template.items | filter:itemSectionNotInSections).length > 0">No Section</li>
-        <ul>
-          <li ng-include="'inspection_templates/items/_show.html'" 
-            ng-repeat="item in inspection_template.items | filter:itemSectionNotInSections"></li>
-        </ul>
-      </ul>
-
-  
-
-
-  <hr />
-
-  <uib-tabset active="active">
-    <uib-tab index="0" heading="Add new Section">
-      <form ng-submit="addSection()">
-        <div class="small-spacer"></div>
-        <div class="form-group form-inline">
-          <label>New Section</label>
-          <input type="text" class="form-control" placeholder="Section" ng-model="newSection"></input>
-          <button ng-disabled="!newSection" type="submit" class="btn btn-success">Add</button>
+  <loading-indicator loading="loading"></loading-indicator>
+  <div class="small-spacer"></div>
+    <div ng-show="inspection_template" class="col-sm-8">
+      <div class="well">
+        <div class="page-header">
+          <h1>Template: {{ inspection_template.name }}</h1>
         </div>
-      </form>
-  </uib-tab>
-    <uib-tab heading="Add new Items">
-      <div class="row">
-        <form ng-submit="addItem()">
-          <h3>New Item</h3>
+        <ul class="list-group"> 
+          <li class="list-group-item" ng-repeat="section in inspection_template.sections">
+            <div class="row">
+              <div class="col-sm-4">
+                <span><b>Section: {{ section }}</b>
+              </div>
+              <div class="col-sm-8">
+                <button ng-click="moveSectionUp(section)" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i> Move Up</button>
+                <button ng-click="moveSectionDown(section)" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i> Move Down</button>
+                <button ng-click="deleteSection(section)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete Section</button>
+                </span>
+              </div>
+            </div>
+            <div class="small-spacer"></div>
+            <ul class="no-bullets">
+              <li ng-include="'inspection_templates/items/_show.html'" ng-repeat="item in inspection_template.items | filter: {section: section}:true"></li>  
+            </ul>
+          </li>
+          <li ng-show="(inspection_template.items | filter:itemSectionNotInSections).length > 0">No Section</li>
+          <ul>
+            <li ng-include="'inspection_templates/items/_show.html'" 
+              ng-repeat="item in inspection_template.items | filter:itemSectionNotInSections"></li>
+          </ul>
+        </ul>
+      </div>
+    <hr />
 
-          <div class="form-group col-sm-4">
-            <label>Name</label>
-            <input type="text" class="form-control" placeholder="Name" ng-model="newItem.name" required></input>
+    <uib-tabset>
+      <uib-tab heading="Add new Section">
+        <form ng-submit="addSection()">
+          <div class="small-spacer"></div>
+          <div class="form-group has-success form-inline section-input">
+            <label class="control-label">New Section</label>
+            <input type="text" class="form-control" placeholder="Section" ng-change="uniqueSection(inspection_template.sections, newSection.name)" ng-model="newSection.name"></input>
+            <button ng-disabled="!newSection.name" type="submit" class="btn btn-success section-submit">Add</button>
+            <span class="help-block"><i>* section names must be unique</i></span>
           </div>
-
-          <div class="form-group col-sm-4">
-            <label>Section</label>
-            <select class="form-control" ng-model="newItem.section" required>
-              <option value="">Select Section</option>
-              <option ng-repeat="item_section in inspection_template.sections" value="{{ item_section }}">{{ item_section }}</option>
-            </select>
-          </div>
-
-          <div class="form-group col-sm-4">
-            <label>Score Type</label>
-            <select class="form-control" ng-model="newItem.score_type" required>
-              <option value="">Select Score Type</option>
-              <option ng-repeat="score_type in validScoreTypes" value="{{ score_type }}">{{ score_type | scoreDisplay}}</option>
-            </select>
-          </div>
-
-          <button  class="btn btn-success btn-block" type="submit">Add Item</button>
+          
         </form>
-      </div>    
-    </uib-tab>
-  </uib-tabset>
+      </uib-tab>
+      <uib-tab heading="Add new Items">
+        <div class="row">
+          <form ng-submit="addItem()">
+            <h3>New Item</h3>
+            <div class="form-group col-sm-4">
+              <label>Name</label>
+              <input type="text" class="form-control" placeholder="Name" ng-model="newItem.name" required></input>
+            </div>
+            <div class="form-group col-sm-4">
+              <label>Section</label>
+              <select class="form-control" ng-model="newItem.section" required>
+                <option value="">Select Section</option>
+                <option ng-repeat="item_section in inspection_template.sections" value="{{ item_section }}">{{ item_section }}</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-4">
+              <label>Score Type</label>
+              <select class="form-control" ng-model="newItem.score_type" required>
+                <option value="">Select Score Type</option>
+                <option ng-repeat="score_type in validScoreTypes" value="{{ score_type }}">{{ score_type | scoreDisplay}}</option>
+              </select>
+            </div>
+            <button  class="btn btn-success btn-block" type="submit">Add Item</button>
+          </form>
+        </div>    
+      </uib-tab>
+    </uib-tabset>
+    <div class="spacer"></div>
+  </div>
 </div>
-
-<div class="spacer"></div>

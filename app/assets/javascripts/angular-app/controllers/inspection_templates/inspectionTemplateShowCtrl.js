@@ -7,7 +7,7 @@ function($scope, $stateParams, inspection_templates, scores) {
   $scope.loading = true;
   $scope.validScoreTypes = scores.validScoreTypes;
   $scope.newItem = {};
-  $scope.newSection = "";
+  $scope.newSection = {name: ""};
   $scope.pageClass = 'show-inspection-template';
 
   $scope.getInspectionTemplate = function() {
@@ -73,9 +73,9 @@ function($scope, $stateParams, inspection_templates, scores) {
   };
 
   $scope.addSection = function() {
-    $scope.inspection_template.sections.push($scope.newSection);
+    $scope.inspection_template.sections.push($scope.newSection.name);
     $scope.updateInspectionTemplateSections();
-    $scope.newSection = "";
+    $scope.newSection.name = "";
   };
 
   $scope.deleteSection = function(section) {
@@ -113,6 +113,14 @@ function($scope, $stateParams, inspection_templates, scores) {
       {sections: $scope.inspection_template.sections})
       .$promise.then(function(data) {
         $scope.inspection_template = data;
+      }, function(data){
+        $('.alert-danger').remove();
+        $errorDiv = $('<div><a class="close" data-dismiss="alert" aria-label="close">&times;</a></div>').addClass('alert alert-danger');
+        var errors = data.data.error;
+        $.each(errors, function(index,value){
+          $errorDiv.append('<li>' + value+ '</li>');
+        });
+        $('.error-messages').append($errorDiv);
       });
   };
 
@@ -123,6 +131,23 @@ function($scope, $stateParams, inspection_templates, scores) {
       }
     }
     return true;
+  };
+
+  $scope.uniqueSection = function(inspection_template_sections, current_section){
+    if (inspection_template_sections.length > 0){
+      for (var i = 0; i < inspection_template_sections.length; i++) {
+        if (inspection_template_sections[i] == current_section) {
+          $('.section-input').removeClass('has-success');
+          $('.section-input').addClass('has-error');
+          $('.section-submit').prop('disabled',true);
+          break;
+        } else{
+          $('.section-submit').prop('disabled',false);
+          $('.section-input').removeClass('has-error');
+          $('.section-input').addClass('has-success');
+        };
+      };
+    }
   };
 
   //$scope.$watchCollection('inspection_template.items', $scope.generateItemSections);
