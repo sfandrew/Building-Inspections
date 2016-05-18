@@ -1,21 +1,29 @@
 <div ng-controller="homeCtrl">
 	<h1>Your Buildings</h1>
-	<div class="col-sm-4">
-		
-		<table class="table table-hover table-condensed">
+	<div class="col-sm-5">
+		<table class="table table-hover table-condensed modern">
 			<thead>
+
 				<tr>
 					<th></th>
-					<th>Name</th>
-					<th>Address</th>
-					<th>Units</th>
+					<th><a href="" ng-click="order('name')">Name</a></th>
+					<th><a href="" ng-click="order('address_line_1')">Address</a></th>
+					<th><a href="" ng-click="order('units_count')">Units</a></th>
 				</tr>
+
 			</thead>
 			<tbody>
-				<tr ng-repeat="building in buildings" ng-if="building.latitude" ng-click="showInfoWindow(event, building)">
+				<tr>
+					<td></td>
+					<td><input class="form-control" ng-model="search.name"></input></td>
+					<td><input class="form-control" ng-model="buildingAddress"></input></td>
+					<td><input class="form-control" ng-model="search.units_count"></input></td>
+				</tr>
+				<tr ng-repeat="building in buildings | orderBy:predicate:reverse| filter:search | filter:filterOnLocation(building) | filter:buildingAddress" ng-if="building.latitude" 
+							ng-click="showInfoWindow(event, building)" ng-class-odd="'odd'">
 					<td width="5%"><a href="#/buildings/{{ building.id }}" class="btn btn-success btn-sm">View</a></td>
-					<td>{{building.name}}</td>
-					<td>
+					<td align="center">{{building.name}}</td>
+					<td align="center">
 						<address>
 							{{ building.address_line_1 }}
 							{{ building.address_line_2 }} 
@@ -23,13 +31,14 @@
 							{{ building.state }}<br>
 						</address>
 					</td>
-					<td> {{building.units_count }} </td>
+					<td align="center"> {{building.units_count }} </td>
 				</tr>
 			</tbody>
 		</table>
+		<uib-pagination total-items="8" ng-model="currentPage"></uib-pagination>
 	</div>
-	<div class="col-sm-8">
-		<ng-map zoom="4" center="[37.5591399,-95.6927916]"  default-style="false">
+	<div class="col-sm-7">
+		<ng-map zoom="3" center="[37.5591399,-95.6927916]"  default-style="false">
 			<marker ng-if="building.latitude"  id="{{building.id}}" ng-repeat="building in buildings" 
 				position="{{ building.latitude }}, {{ building.longitude }}" on-click="showInfoWindow(event, building)">
 			</marker>

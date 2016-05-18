@@ -20,8 +20,12 @@
 //= require angular-ui-router
 //= require angular-rails-templates
 //= require ./angular-app/main
+//= require angularUtils-pagination/dirPagination.js
+//= require angularUtils-pagination
 //= require ngmap/build/scripts/ng-map.min.js
 //= require ng-table/dist/ng-table.min.js
+//= require angular-bootstrap/ui-bootstrap.min.js
+//= require angular-bootstrap/ui-bootstrap-tpls.min.js
 //= require_tree ./angular-app/controllers
 //= require_tree ./angular-app/filters
 //= require_tree ./angular-app/services

@@ -2,6 +2,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "ng-table/dist/ng-table.min.css";
+@import "angular-bootstrap/ui-bootstrap-csp.css";
 
 
 body {
@@ -32,14 +33,12 @@ body {
 .spacer{
   padding: 50px;
 }
-.list-inspection-templates, .list-inspections, .listing-buildings { 
+.small-spacer{
+  padding: 5px;
+}
+.list-inspection-templates, .list-inspections, .listing-buildings, .show-inspection-template { 
   animation: scaleUp 0.4s both ease-in; 
 }
-
-.show-inspection-template {
-  animation: roateFall 0.7s both ease-in;
-}
-
 
 /* slide in from the bottom */
 @keyframes slideOutLeft {
@@ -224,3 +223,17 @@ body {
   padding: 0px;
 }
 /*SIDE MENU STOP*/
+
+/*CUSTOM TABLE */
+.modern {
+  thead{
+    background-color: darkgray;
+  }
+  tbody tr:nth-child(odd){
+    background-color: antiquewhite;
+    color: #008b8b;
+  }
+}
+.no-bullets{
+  list-style-type:none;
+}
