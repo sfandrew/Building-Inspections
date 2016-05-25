@@ -53,7 +53,7 @@ class InspectionTemplatesController < ApplicationController
         format.json { render :show, status: :ok, location: @inspection_template }
       else
         format.html { render :edit }
-        format.json { render json: @inspection_template.errors, status: :unprocessable_entity }
+        format.json { render :json => { :error =>  @inspection_template.errors.full_messages }, :status => 422 }
       end
     end
   end

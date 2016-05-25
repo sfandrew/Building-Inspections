@@ -4,7 +4,8 @@ angular.module('buildingInspections').controller('InspectionTemplatesIndexCtrl',
   'inspection_templates',
 function($scope, $stateParams, inspection_templates) {
   $scope.loading = true;
-  $scope.pageClass = 'list-inspection-templates',
+  $scope.pageClass = 'list-inspection-templates';
+  $scope.newInspectionTemplate = {name: ''};
 
   $scope.getInspectionTemplates = function() {
     inspection_templates.index()
@@ -24,10 +25,10 @@ function($scope, $stateParams, inspection_templates) {
 
   $scope.addInspectionTemplate = function() {
     inspection_templates.create({
-      name: $scope.name,
+      name: $scope.newInspectionTemplate.name,
     })
     .$promise.then($scope.getInspectionTemplates);
-    $scope.name = '';
+    $scope.newInspectionTemplate.name = '';
   };
 
   $scope.getInspectionTemplates();
