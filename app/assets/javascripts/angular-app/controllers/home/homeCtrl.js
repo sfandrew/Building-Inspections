@@ -51,7 +51,5 @@ angular.module('buildingInspections').controller('homeCtrl', ['$scope', 'buildin
 			infowindow.open($scope.map, marker);	
 		};
 
-
-	console.log($scope.building);
 	$scope.retriveBuildings();
 }]);

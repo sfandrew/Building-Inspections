@@ -1,21 +1,21 @@
-<h1>Building Detail</h1>
-<div class="col-sm-4">
-	<address>
-		<strong>{{ building.name }}</strong><br>
-		{{ building.address_line_1 }}<br>
-		{{ building.address_line_2 }} <br>
-		{{ building.zip }}<br>
-		{{ building.state }}<br>
-		<p><strong>Units:</strong>
-		  <ul>
-		    <li ng-repeat="unit in building.units">{{ unit.unit_number }}</li>
-		  </ul>
-		</p>
-	</address>
-	<a href="#/buildings/{{ building.id }}/units/new" class="btn btn-success  btn-block">ADD NEW UNIT</a>
+<div ng-include="'buildings/_building_show.html'"></div>
+<div class="col-sm-10">
+	<div class="col-sm-2">
+		<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> ADD NEW UNIT</button>
+	</div>
 </div>
-<div class="col-md-8">
-	<ng-map ng-if="building.latitude" center="[ {{ building.latitude }}, {{ building.longitude }}]" zoom="14">
-		<marker position="{{ building.latitude }}, {{ building.longitude }}"></marker>
-	</ng-map>
+<div class="col-sm-4 unit-form">
+	<div class="well" uib-collapse="isCollapsed">
+		<form ng-submit="addUnit()">
+			<div class="row">
+				<div class="form-group col-sm-5">
+					<input type="text" class="form-control" placeholder="Unit Number" ng-model="unit.unit_number" required></input>
+					</div>
+					<button class="btn btn-success" ng-disabled="!unit.unit_number" type="submit">Add Unit</button>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
+
+<!-- <a href="#/buildings/{{ building.id }}/units/new" class="btn btn-success  col-md-4 btn-lg">ADD NEW UNIT</a> -->
