@@ -223,18 +223,3 @@ body {
   margin: 0px;
   padding: 0px;
 }
-/*SIDE MENU STOP*/
-
-/*CUSTOM TABLE */
-.modern {
-  thead{
-    background-color: darkgray;
-  }
-  tbody tr:nth-child(odd){
-    background-color: antiquewhite;
-    color: #008b8b;
-  }
-}
-.no-bullets{
-  list-style-type:none;
-}
