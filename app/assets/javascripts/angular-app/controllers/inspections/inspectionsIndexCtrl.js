@@ -10,6 +10,9 @@ function($scope, $stateParams, $state, inspections, inspection_templates, buildi
   
   $scope.inspection = {}
   $scope.pageClass = 'list-inspections';
+  $scope.isCollapsed = true;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 10;
 
   $scope.getInspectionTemplates = function() {
     $scope.inspection_templates = inspection_templates.index();
@@ -38,7 +41,6 @@ function($scope, $stateParams, $state, inspections, inspection_templates, buildi
     inspections.create($scope.inspection)
     .$promise.then(function(data) {
       $state.go('inspection', {id: data.id});
-      //$scope.inspections.push(data);
     });
     $scope.inspection = {};
     $scope.selected_building_id = "";

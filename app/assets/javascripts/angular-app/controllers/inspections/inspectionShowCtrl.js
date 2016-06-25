@@ -4,9 +4,14 @@ angular.module('buildingInspections').controller('InspectionShowCtrl', [
   'inspections',
   'buildings',
   'units',
-function($scope, $stateParams, inspections, buildings, units) {
+  'NgMap',
+function($scope, $stateParams, inspections, buildings, units, NgMap) {
+  NgMap.getMap().then(function(map) {
+    $scope.map = map;
+  });
 
   $scope.loading = true;
+  $scope.showUnit = true;
   
   $scope.getInspection = function() {
     inspections.show({id: $stateParams.id})

@@ -1,0 +1,12 @@
+<ng-map default-style="true" center="[ {{ building.latitude }}, {{ building.longitude }}]" zoom="14">
+  <marker id="foo" position="[ {{ building.latitude }}, {{ building.longitude }}]" on-click="map.showInfoWindow('building')"></marker>
+  <info-window id="building" visible-on-marker="foo" >
+    <div ng-non-bindable>
+      <p><strong>Building Name:</strong> {{ building.name }}</p>
+      <p><strong>Building Address 1: </strong>{{ building.address_line_1 }}</p>
+      <p><strong>Building Address 2: </strong>{{ building.address_line_2 }}</p>
+      <p>{{ building.city }}, {{ building.state }} {{ building.zip }} </p>
+      <p ng-if="showUnit"><strong>Unit: </strong>{{ unit.unit_number }}</p>
+    </div>
+  </info-window>
+</ng-map>

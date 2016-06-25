@@ -1,21 +1,2 @@
 <h1>Building Detail</h1>
-<div class="col-sm-4">
-	<address>
-		<strong>{{ building.name }}</strong><br>
-		{{ building.address_line_1 }}<br>
-		{{ building.address_line_2 }} <br>
-		{{ building.zip }}<br>
-		{{ building.state }}<br>
-		<p><strong>Units:</strong>
-		  <ul>
-		    <li ng-repeat="unit in building.units">{{ unit.unit_number }}</li>
-		  </ul>
-		</p>
-	</address>
-	
-</div>
-<div class="col-md-8">
-	<ng-map ng-if="building.latitude" center="[ {{ building.latitude }}, {{ building.longitude }}]" zoom="14">
-		<marker position="{{ building.latitude }}, {{ building.longitude }}"></marker>
-	</ng-map>
-</div>
+<div ng-include="'buildings/_building_map.html'"></div>

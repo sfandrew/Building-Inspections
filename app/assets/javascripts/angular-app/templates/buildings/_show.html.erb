@@ -1,21 +1,26 @@
 <div ng-include="'buildings/_building_show.html'"></div>
-<div class="col-sm-10">
-	<div class="col-sm-2">
-		<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> ADD NEW UNIT</button>
-	</div>
-</div>
-<div class="col-sm-4 unit-form">
-	<div class="well" uib-collapse="isCollapsed">
-		<form ng-submit="addUnit()">
-			<div class="row">
-				<div class="form-group col-sm-5">
-					<input type="text" class="form-control" placeholder="Unit Number" ng-model="unit.unit_number" required></input>
-					</div>
-					<button class="btn btn-success" ng-disabled="!unit.unit_number" type="submit">Add Unit</button>
-				</div>
-			</div>
-		</form>
-	</div>
+<div class="col-sm-7">
+	<strong>UNITS:</strong>
+	  <ul>
+	    <li ng-repeat="unit in building.units.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">{{ unit.unit_number }} </li>
+	  </ul>
+	<uib-pagination boundary-links="true" total-items="building.units.length" ng-model="currentPage" ng-change="pageChanged()" items-per-page="itemsPerPage"></uib-pagination>
 </div>
 
-<!-- <a href="#/buildings/{{ building.id }}/units/new" class="btn btn-success  col-md-4 btn-lg">ADD NEW UNIT</a> -->
+<div class="small-spacer"></div>
+
+<div class="col-sm-5 well" uib-collapse="isCollapsed">
+	<form ng-submit="addUnit()">
+			<div class="form-group col-sm-10">
+				<label class="control-label col-sm-4">Unit Number: </label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" ng-model="unit.unit_number" required></input>
+				</div>
+			</div>
+		<button class="btn btn-success btn-block" ng-disabled="!unit.unit_number" type="submit">CREATE UNIT</button>
+	</form>
+</div>
+
+<div class="col-sm-10">
+	<button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> ADD NEW UNIT</button>
+</div>

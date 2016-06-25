@@ -1,42 +1,55 @@
 <div class="page-header">
   <h1>Inspection</h1>
 </div>
-<p ng-include="'buildings/_basic_info.html'"></p>
-<p ng-include="'units/_basic_info.html'"></p>
-<p>Description: {{ inspection.description }}</p>
 
-<table class="table table-bordered table-striped">
-  
-  <thead ng-repeat-start="section in inspection.sections">
-    <tr>
-      <td colspan="3">{{ section }}</td>
-    </tr>
-    <tr>
-        
-      <th>
-        Name
-      </th>
+  <ng-map default-style="true" center="[ {{ building.latitude }}, {{ building.longitude }}]" zoom="14">
+    <marker id="foo" position="[ {{ building.latitude }}, {{ building.longitude }}]" on-click="map.showInfoWindow('building')"></marker>
+    <info-window id="building" >
+      <div ng-non-bindable>
+        <p><strong>Building Name:</strong> {{ building.name }}</p>
+        <p><strong>Building Address 1: </strong>{{ building.address_line_1 }}</p>
+        <p><strong>Building Address 2: </strong>{{ building.address_line_2 }}</p>
+        <p>{{ building.city }}, {{ building.state }} {{ building.zip }} </p>
+        <p ng-if="showUnit"><strong>Unit: </strong>{{ unit.unit_number }}</p>
+      </div>
+    </info-window>
+  </ng-map>
 
-      <th>
-        Score
-      </th>
+<div class="spacer"></div>
 
-    </tr>
-  </thead>
+  <table class="table table-bordered table-striped">
+    
+    <thead ng-repeat-start="section in inspection.sections">
+      <tr>
+        <td colspan="3">{{ section }}</td>
+      </tr>
+      <tr>
+          
+        <th>
+          Name
+        </th>
 
-  <tbody ng-repeat-end>
-    <tr ng-repeat="item in inspection.items | filter: {section: section}:true">
-      <td>
-        {{ item.name }}
-      </td>
+        <th>
+          Score
+        </th>
 
-      <td ng-include="'inspections/items/' + item.score_type + '.html'">
+      </tr>
+    </thead>
 
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <tbody ng-repeat-end>
+      <tr ng-repeat="item in inspection.items | filter: {section: section}:true">
+        <td>
+          {{ item.name }}
+        </td>
 
-<button ng-click="saveInspection()">Save Inspection</button>
-<loading-indicator loading="loading"></loading-indicator>
-<error-indicator error="error"></error-indicator>
+        <td ng-include="'inspections/items/' + item.score_type + '.html'">
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn btn-success btn-block btn-lg" ng-click="saveInspection()">SAVE INSPECTION</button>
+  <loading-indicator loading="loading"></loading-indicator>
+  <error-indicator error="error"></error-indicator>
+

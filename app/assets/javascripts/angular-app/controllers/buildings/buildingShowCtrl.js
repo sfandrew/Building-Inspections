@@ -6,8 +6,15 @@ angular.module('buildingInspections').controller('BuildingShowCtrl', [
   '$state',
   'NgMap',
 function($scope, $stateParams, buildings, units, $state, NgMap) {
+  NgMap.getMap().then(function(map) {
+    $scope.map = map;
+  });
+
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 10;
   $scope.unit = "";
   $scope.isCollapsed = true;
+  
   $scope.getBuilding = function() {
     $scope.building = buildings.show({id: $stateParams.id});
   };

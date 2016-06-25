@@ -1,57 +1,82 @@
 <div class="{{ pageClass }}" ng-view>
   <h1>Listing Inspections</h1>
+  <div class="col-sm-6">
+    <table class="table table-hover table-condensed modern">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Description</th>
+          <th>Items Count</th>
+        </tr>
+      </thead>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Description</th>
-        <th>Items Count</th>
-      </tr>
-    </thead>
+      <tbody>
+        <tr ng-repeat="inspection in inspections.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+          <td><a href="#/inspections/{{ inspection.id }}" class="btn btn-success">View</a></td>
+          <td><strong><h4>{{ inspection.description }}</strong></h4></td>
+          <td>{{ inspection.items_count }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-    <tbody>
-      <tr ng-repeat="inspection in inspections">
-        <td><a href="#/inspections/{{ inspection.id }}">View</a></td>
-        <td>{{ inspection.description }}</td>
-        <td>
-          {{ inspection.items_count }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+   
 
-  <form ng-submit="addInspection()">
-    <h3>New Inspection</h3>
+    
 
-    <div class="form-group">
-      Template: <select ng-model="inspection.template_id">
-        <option value="">---</option>
-        <option ng-repeat="inspection_template in inspection_templates | filter:inspectionTemplateHasItems" value="{{ inspection_template.id }}">{{ inspection_template.name }}</option>
-      </select>
+    <div class="col-sm-8">
+     <uib-pagination boundary-links="true" total-items="inspections.length" ng-model="currentPage" ng-change="pageChanged()" items-per-page="itemsPerPage"></uib-pagination>
+      <button ng-click="isCollapsed = !isCollapsed" type="button" class="btn btn-info" ><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> ADD NEW INSPECTION</button>
+     
     </div>
 
-    <div class="form-group">
-      Building: <select ng-model="inspection.selected_building"
-      ng-options="building as building.name for building in buildings track by building.id" ng-change="setSelectedBuilding()">
-        <option value="">---</option>
-      </select>
-    </div>
+     
+  </div>
 
-    <div class="form-group">
-      Unit: <select ng-model="inspection.selected_unit" 
-        ng-options="unit as unit.unit_number for unit in units track by unit.id">
-        <option value="">---</option>
-      </select>
-    </div>
-    <p>Selected Template: {{ inspection.template_id }}</p>
-    <p>Selected Building: {{ selected_building_id }}, Name: {{ selected_building.name }}</p>
-    <p>Selected Unit: {{ inspection.selected_unit.unit_number }}</p>
+  
 
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Description" ng-model="inspection.description"></input>
-    </div>
+  <div class="col-sm-6 well" uib-collapse="isCollapsed">
+    <form class="form-horizontal" ng-submit="addInspection()">
 
-    <button type="submit">Add Inspection</button>
-  </form>
+      <div class="form-group">
+        <label class="control-label col-sm-2">Template: </label>
+        <div class="col-sm-10">
+          <select ng-model="inspection.template_id" class="form-control" required>
+            <option value="">Select Template</option>
+            <option ng-repeat="inspection_template in inspection_templates | filter:inspectionTemplateHasItems" value="{{ inspection_template.id }}">{{ inspection_template.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2">Building: </label>
+        <div class="col-sm-6">
+          <select ng-model="inspection.selected_building" class="form-control" ng-options="building as building.name for building in buildings track by building.id" ng-change="setSelectedBuilding()" required>
+            <option value="">---</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="control-label col-sm-2">Unit: </label>
+          <div class="col-sm-4">
+            <select ng-model="inspection.selected_unit" class="form-control" ng-options="unit as unit.unit_number for unit in units track by unit.id" required>
+              <option value="">---</option>
+            </select>
+          </div>
+      </div>
+
+      <!-- <p>Selected Template: {{ inspection.template_id }}</p>
+      <p>Selected Building: {{ selected_building_id }}, Name: {{ selected_building.name }}</p>
+      <p>Selected Unit: {{ inspection.selected_unit.unit_number }}</p> -->
+
+      <div class="form-group">
+        <label class="control-label col-sm-2">Description: </label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" placeholder="Description" ng-model="inspection.description"></input>
+        </div>
+      </div>
+
+      <button  class="btn btn-success btn-block" ng-disabled="!inspection.template_id && !inspection.selected_building" type="submit"><strong>CREATE INSPECTION</strong></button>
+    </form>
+  </div>
 </div>
