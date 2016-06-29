@@ -4,6 +4,7 @@
 @import "ng-table/dist/ng-table.min.css";
 @import "angular-bootstrap/ui-bootstrap-csp.css";
 @import "buildings.scss";
+@import 'https://fonts.googleapis.com/css?family=Bungee';
 
 
 body {
@@ -16,6 +17,12 @@ body {
 .home-page-title{
   color: white;
 }
+
+.home-page-title > h1{
+      font-family: 'Bungee', cursive;
+      font-size:45px;
+}
+
 .marketing {
   background: white;
   margin-top: 250px;
@@ -39,6 +46,11 @@ body {
 }
 .list-inspection-templates, .list-inspections, .listing-buildings, .show-inspection-template { 
   animation: scaleUp 0.4s both ease-in; 
+}
+
+span.menu-title{
+	padding: 15px;
+	font-size: 13px;
 }
 
 /* slide in from the bottom */

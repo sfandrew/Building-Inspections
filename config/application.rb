@@ -40,5 +40,8 @@ module BuildingInspections
     end
 
     config.angular_templates.ignore_prefix = 'angular-app/templates/'
+
+    config.version_number = 'v0.1.0'
+    config.version_date = '06/29/2016'
   end
 end

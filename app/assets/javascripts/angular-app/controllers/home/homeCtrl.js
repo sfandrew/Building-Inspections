@@ -6,12 +6,11 @@ angular.module('buildingInspections').controller('homeCtrl', ['$scope', 'buildin
         });
         // http://plnkr.co/edit/8ec6BDo04iZPSRqeTuqk?p=preview
         $scope.buildingAddress = '';
-
 		$scope.predicate = 'name';
 		$scope.reverse = true; 
 		$scope.address = '';
-		$scope.numPerPage = 5; 
 		$scope.currentPage = 1;
+  		$scope.itemsPerPage = 10;
 
 		$scope.order = function (predicate) {  
          $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;  
@@ -20,6 +19,21 @@ angular.module('buildingInspections').controller('homeCtrl', ['$scope', 'buildin
 
 		$scope.retriveBuildings = function(){
 			$scope.buildings = buildings.index();
+		};
+
+		$scope.allBuildings = function(buildings){
+			$scope.locations = [];
+			for(var i = 0; i < buildings.length; i++){
+				currentLocation = [buildings[i].latitude, buildings[i].longitude]
+				$scope.locations.push(currentLocation);
+			}
+			var bounds = new google.maps.LatLngBounds();
+			for (var i=0; i < $scope.locations.length; i++) {
+      			var latlng = new google.maps.LatLng($scope.locations[i][0], $scope.locations[i][1]);
+      			bounds.extend(latlng);
+    		}
+    		$scope.map.setCenter(bounds.getCenter());
+      		$scope.map.fitBounds(bounds);
 		};
 		
 		$scope.buildingSize = function(){
@@ -33,23 +47,14 @@ angular.module('buildingInspections').controller('homeCtrl', ['$scope', 'buildin
     		return (building.address_line_1 + building.address_line_2 + building.zip + building.state).indexOf($scope.address) >= 0;
   		};
 
-		$scope.showInfoWindow = function(event,building){
-
-			var building_position = {lat: building.latitude, lng: building.longitude};
-			var marker = new google.maps.Marker({
-    						position: building_position
-  			});
-
-			var infowindow = new google.maps.InfoWindow();
-			var center = new google.maps.LatLng(building.latitude,building.longitude);
-			
-			infowindow.setContent(
-				'<h5>Building Name: ' + building.name + '</h5>'+ '<p>Address: ' + building.address_line_1 + '</p>' +
-				'<p>Address 2: ' + building.address_line_2 + '</p>' +
-				'<p>City: ' + building.city + ' State: ' + building.state + ' Zip: ' + building.zip);
-			infowindow.setPosition(center);
-			infowindow.open($scope.map, marker);	
-		};
+  		$scope.showDetail = function(evnt,bldg){
+  			$scope.map.showInfoWindow('foo-iw');
+  			
+  		};
+  		$scope.showCity = function(event, building) {
+            $scope.selectedbuilding = building;
+            $scope.map.showInfoWindow('myInfoWindow', this);
+        };
 
 	$scope.retriveBuildings();
 }]);

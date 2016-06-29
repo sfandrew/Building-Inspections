@@ -6,8 +6,11 @@ function($scope, $stateParams, buildings) {
 
   $scope.loading = true;
   $scope.pageClass = 'listing-buildings';
-
+  $scope.isCollapsed = true;
+  $scope.currentPage = 1;
+  $scope.itemsPerPage = 10;
   $scope.building = {};
+
   
   $scope.getBuildings = function() {
     buildings.index()

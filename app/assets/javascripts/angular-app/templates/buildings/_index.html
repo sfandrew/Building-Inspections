@@ -16,7 +16,7 @@
     </thead>
 
     <tbody>
-      <tr ng-repeat="building in buildings">
+      <tr ng-repeat="building in buildings.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
         <td width="5%"><a href="#/buildings/{{ building.id }}" class="btn btn-success btn-sm">View</a></td>
         <td>{{ building.name }}</td>
         <td>
@@ -30,9 +30,15 @@
     </tbody>
   </table>
 
-  </div>
+  <uib-pagination boundary-links="true" total-items="buildings.length" ng-model="currentPage" ng-change="pageChanged()" items-per-page="itemsPerPage"></uib-pagination>
 
-  <div class="well">
+  </div>
+  
+  <button type="button" class="btn btn-info" ng-click="isCollapsed = !isCollapsed"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> ADD NEW BUILDING</button>
+
+  <div class="small-spacer"></div>
+
+  <div class="well col-sm-10" uib-collapse="isCollapsed">
     <form ng-submit="addBuilding()" class="form-horizontal">
       <legend><h2>Add New Building</h2></legend>
 
