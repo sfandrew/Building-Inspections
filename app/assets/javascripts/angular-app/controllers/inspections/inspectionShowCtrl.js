@@ -26,10 +26,14 @@ function($scope, $stateParams, inspections, buildings, units, NgMap) {
   	$scope.loading = true;
   	inspections.update({id: $scope.inspection.id}, $scope.paramsForUpdate())
   	.$promise.then($scope.setInspection, function(error) {
+
   		$scope.error = error.data
   	})
   	.finally(function() {
+      $successMsg = $('<div class="alert alert-success fade-out-msg"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Inspection has been saved!</strong></div>');
+      $('.page-header').append($successMsg);
   		$scope.loading = false;
+
   	});
   };
 

@@ -17,7 +17,7 @@ function($scope, $stateParams, inspection_templates, scores) {
         $scope.inspection_template = data;
         $scope.generateItemSections();
       }).finally(function() {
-        $scope.loading = true;
+        $scope.loading = false;
       });
 
   };
