@@ -139,7 +139,7 @@ span.menu-title{
   padding: 0px;
   margin: 0px;
   line-height: 35px;
-  cursor: pointer;
+  
   /*    
     .collapsed{
        .arrow:before{
@@ -260,4 +260,8 @@ span.menu-title{
 body {
   margin: 0px;
   padding: 0px;
+}
+ul.no-bullets{
+  list-style-type: none;
+  color: green;
 }

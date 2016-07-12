@@ -1,56 +1,33 @@
-<div class="page-header">
-  <h1>Inspection</h1>
-  
+<h1>Inspection</h1>
+
+<div class="col-sm-12">
+  <div ng-include="'buildings/_building_map.html'"></div>
 </div>
+<div class=" col-sm-12  small-spacer"></div>
 
-  <ng-map default-style="true" center="[ {{ building.latitude }}, {{ building.longitude }}]" zoom="14">
-    <marker id="foo" position="[ {{ building.latitude }}, {{ building.longitude }}]" on-click="map.showInfoWindow('building')"></marker>
-    <info-window id="building" >
-      <div ng-non-bindable>
-        <p><strong>Building Name:</strong> {{ building.name }}</p>
-        <p><strong>Building Address 1: </strong>{{ building.address_line_1 }}</p>
-        <p><strong>Building Address 2: </strong>{{ building.address_line_2 }}</p>
-        <p>{{ building.city }}, {{ building.state }} {{ building.zip }} </p>
-        <p ng-if="showUnit"><strong>Unit: </strong>{{ unit.unit_number }}</p>
-      </div>
-    </info-window>
-  </ng-map>
-
-<div class="spacer"></div>
-
+<div class="col-sm-12">
   <table class="table table-bordered table-striped">
-    
     <thead ng-repeat-start="section in inspection.sections">
       <tr>
         <td colspan="3">{{ section }}</td>
       </tr>
       <tr>
-          
-        <th>
-          Name
-        </th>
-
-        <th>
-          Score
-        </th>
-
+        <th>Name</th>
+        <th>Score</th>
       </tr>
     </thead>
-
     <tbody ng-repeat-end>
       <tr ng-repeat="item in inspection.items | filter: {section: section}:true">
-        <td>
-          {{ item.name }}
-        </td>
-
+        <td>{{ item.name }}</td>
         <td ng-include="'inspections/items/' + item.score_type + '.html'">
-
         </td>
       </tr>
     </tbody>
   </table>
-
   <button class="btn btn-success btn-block btn-lg" ng-click="saveInspection()">SAVE INSPECTION</button>
   <loading-indicator loading="loading"></loading-indicator>
   <error-indicator error="error"></error-indicator>
+</div>
+
+  
 

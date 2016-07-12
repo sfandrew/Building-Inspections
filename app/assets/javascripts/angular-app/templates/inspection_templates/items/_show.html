@@ -5,8 +5,8 @@
         Type: <i>{{ item.score_type | scoreDisplay }}</i></span>
     </div>
     <div class="col-sm-8">
-      <button ng-click="toggleEdit(item)" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Item</button>
-      <button ng-click="deleteItem(item)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete Item</button>
+      <button ng-click="toggleEdit(item)" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit </button>
+      <button ng-click="deleteItem(item)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete </button>
     </div>
   </span>
 </div>
@@ -33,8 +33,8 @@
         <select class="form-control" ng-model="item.score_type" required>
           <option ng-repeat="score_type in validScoreTypes" value="{{ score_type }}">{{ score_type | scoreDisplay}}</option>
         </select>
-      </div>
-      <button class="col-sm-2 btn btn-success btn-block" type="submit">Save Item</button>
+ 
+       <button class="col-sm-2 btn btn-success btn-block" type="submit">Save Item</button>
     </form>
   </span>
 </div>

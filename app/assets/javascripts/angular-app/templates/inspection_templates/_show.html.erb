@@ -1,11 +1,29 @@
 <div class="{{ pageClass }}" ng-view>
   <loading-indicator loading="loading"></loading-indicator>
   <div class="small-spacer"></div>
-    <div ng-show="inspection_template" class="col-sm-8">
+    <div ng-show="inspection_template">
+
       <div class="well">
         <div class="page-header">
           <h1>Template: {{ inspection_template.name }}</h1>
         </div>
+        <!-- <table class="table table-hover table-condensed" ng-repeat="section in inspection_template.sections">
+          <thead>
+            <tr>
+              <th class="col-sm-2">Section: {{ section }}</th>
+              <th>
+                <button ng-click="moveSectionUp(section)" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                <button ng-click="moveSectionDown(section)" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                <button ng-click="deleteSection(section)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete </button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr  class="col-sm-4" ng-include="'inspection_templates/items/_show.html'" ng-repeat="item in inspection_template.items | filter: {section: section}:true">
+              
+            </tr>
+          </tbody>
+        </table> -->
         <ul class="list-group"> 
           <li class="list-group-item" ng-repeat="section in inspection_template.sections">
             <div class="row">
@@ -13,9 +31,9 @@
                 <span><b>Section: {{ section }}</b>
               </div>
               <div class="col-sm-8">
-                <button ng-click="moveSectionUp(section)" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i> Move Up</button>
-                <button ng-click="moveSectionDown(section)" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i> Move Down</button>
-                <button ng-click="deleteSection(section)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete Section</button>
+                <button ng-click="moveSectionUp(section)" class="btn btn-primary"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+                <button ng-click="moveSectionDown(section)" class="btn btn-primary"><i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+                <button ng-click="deleteSection(section)" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>
                 </span>
               </div>
             </div>
