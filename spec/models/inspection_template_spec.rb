@@ -17,6 +17,16 @@ RSpec.describe InspectionTemplate, type: :model do
     expect(FactoryGirl.build(:inspection_template, unit: nil)).to be_valid
   end
 
+  it "is invalid on create without a user" do
+    expect(FactoryGirl.build(:inspection_template, user: nil)).to be_invalid
+  end
+
+  it "is valid after create without a user" do
+    inspection_template = FactoryGirl.create(:inspection_template)
+    inspection_template.user = nil
+    expect(inspection_template).to be_valid
+  end
+
   it "has a persisted ordered list of unique sections" do
     inspection_template = FactoryGirl.create(:inspection_template)
     inspection_template.sections = ["first", "second"]

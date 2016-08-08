@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :inspection_template do
     name { "InspectionTemplateTestName" }
+    user { FactoryGirl.create(:user) }
 
     factory :inspection_template_with_items do
         transient do

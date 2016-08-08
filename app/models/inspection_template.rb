@@ -8,6 +8,7 @@ class InspectionTemplate < ActiveRecord::Base
   serialize :sections, Array
 
   validates :name, presence: true
+  validates :user, presence: true, on: :create
   validate :sections_are_unique
 
 

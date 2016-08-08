@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe "InspectionTemplates", :type => :request do
   let(:valid_attributes) {
-    FactoryGirl.attributes_for(:inspection_template)
+    FactoryGirl.attributes_for(:inspection_template, user: @user)
   }
 
 
@@ -25,7 +25,11 @@ RSpec.describe "InspectionTemplates", :type => :request do
 
       describe "GET #show" do
         it "renders the inspection template and its items in json" do
-          inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 5, name: "Test Name")
+          inspection_template = FactoryGirl.create(
+            :inspection_template_with_items, 
+            items_count: 5, 
+            name: "Test Name",
+            user: @user)
           get inspection_template_path(inspection_template), {format: :json}
           expect(response.content_type).to eq("application/json")
           expect(response.status).to be(200)
@@ -37,7 +41,10 @@ RSpec.describe "InspectionTemplates", :type => :request do
 
       describe "PUT #update" do
         it "updates the inspection template" do
-          inspection_template = FactoryGirl.create(:inspection_template, name: "before")
+          inspection_template = FactoryGirl.create(
+            :inspection_template, 
+            name: "before",
+            user: @user)
           put(
             inspection_template_path(inspection_template), 
             {format: :json, inspection_template: {name: "after", sections: ["S5"]}}
@@ -55,7 +62,7 @@ RSpec.describe "InspectionTemplates", :type => :request do
             items_attributes: [FactoryGirl.attributes_for(:inspection_template_item, name: "new item")]
           }
 
-          inspection_template = FactoryGirl.create(:inspection_template)
+          inspection_template = FactoryGirl.create(:inspection_template, user: @user)
           put(
             inspection_template_path(inspection_template), 
             {format: :json, inspection_template: 
@@ -71,7 +78,7 @@ RSpec.describe "InspectionTemplates", :type => :request do
         end
 
         it "updates an associated item" do
-          inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 2)
+          inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 2, user: @user)
           inspection_template.items[0].name = "first"
           inspection_template.items[1].name = "second"
           inspection_template.save!
@@ -98,7 +105,7 @@ RSpec.describe "InspectionTemplates", :type => :request do
         end
 
         it "deletes an associated item" do
-          inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 1)
+          inspection_template = FactoryGirl.create(:inspection_template_with_items, items_count: 1, user: @user)
 
           put(
             inspection_template_path(inspection_template), 
