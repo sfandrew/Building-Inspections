@@ -4,6 +4,8 @@ class Building < ActiveRecord::Base
 	has_many :units
 	belongs_to :user
 
+	mount_uploaders :photos, BuildingPhotosUploader
+
 	validates :name, :address_line_1, :zip, :city, :state, presence: true
 	geocoded_by :full_address
 	after_validation :geocode, if: :address_fields_changed?

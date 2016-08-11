@@ -53,6 +53,9 @@ gem 'devise'
 # User authorization
 gem 'cancancan', '~> 1.10'
 
+# File upload (e.g. images, pdf)
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
